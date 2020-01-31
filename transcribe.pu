@@ -1,0 +1,17 @@
+@startuml{flowchart.png}
+(*) --> "transcribe"
+scale 2.0
+"transcribe" -> "PPTXTranscriber"
+note right 
+    Convert the decendant artists.
+end note
+if "Is registered Artist?" then 
+    -->[Yes] "Conversion with the registered func "
+else
+    -->[No] "Renderer"
+endif
+note right
+    Derived from ``matplotlib.backend_bases.RendererBase``
+end note
+
+@enduml
