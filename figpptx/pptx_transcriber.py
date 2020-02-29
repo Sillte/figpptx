@@ -1,4 +1,10 @@
 """ Transcribe ``matplotlib.figure`` to slide of ``Powerpoint``.
+
+
+Note
+------
+(2020-02-29)
+You should cache ``CrudeRender``.
 """
 
 import warnings
@@ -32,7 +38,7 @@ class PPTXTranscriber:
         self.top = top
 
     def transcribe(self, artist, parent_figure=None):
-        # [TODO] You should revise this so that calling ``apply_dummy_reander`` should be 1.
+        # [TODO] You should revise this so that calling ``_apply_dummy_reander`` should be 1.
         if isinstance(artist, Collection):
             result = list()
             for elem in artist:
@@ -87,7 +93,7 @@ class PPTXTranscriber:
             if isinstance(artist, _AxesBase):
                 shapes += self._transcribe_axis(artist)
             else:
-                shapes += self._transcribe_artist(artist, fig)
+                shapes += self._transcribe_artist(artist, parent_figure=fig)
         return shapes
 
     def _transcribe_axis(self, ax):
@@ -126,50 +132,49 @@ class PPTXTranscriber:
             key=lambda artist: artist.get_zorder(),
         )
 
-        crude_renderer = CrudeRenderer(slide_editor)
         shapes = list()
         for artist in artists:
-            print(f"{type(artist)}", artist)
-            if ConverterManager.is_registered(artist):
-                converter = ConverterManager.fetch(artist)
-                try:
-                    ret = converter(slide_editor, artist)
-                except NonDisplayException:
-                    pass
-                except NonHandlingException:
-                    artist.draw(crude_renderer)
-                else:
-                    if ret is not None:
-                        shapes += ret
-                    else:
-                        warnings.warn(
-                            "Converter function should return ``list`` of ``Shapes``.",
-                            UserWarning,
-                        )
-
-            elif isinstance(artist, _AxesBase):
+            if isinstance(artist, _AxesBase):
                 shapes += self._transcribe_axis(artist)
             else:
-                artist.draw(crude_renderer)
-        shapes += crude_renderer.made_shapes
+                shapes += self._transcribe_artist(artist)
         return shapes
 
-    def _transcribe_artist(self, artist, parent_figure=None):
+    def _transcribe_artist(self, artist, parent_figure=None, crude_render=None):
         if parent_figure is None:
             fig = artist.axes.figure
         else:
             fig = parent_figure
 
         width, height = _get_pixel_size(fig)
-        # dummy_renderer = DummyRenderer(width, height)
 
         slide_editor = SlideEditor(
             self.slide, left=self.left, top=self.top, size=(width, height)
         )
-        crude_renderer = CrudeRenderer(slide_editor)
-        artist.draw(crude_renderer)
 
-        return crude_renderer.made_shapes
+        if crude_render is None:
+            crude_renderer = CrudeRenderer(slide_editor)
+
+        if ConverterManager.is_registered(artist):
+            converter = ConverterManager.fetch(artist)
+            try:
+                shapes = converter(slide_editor, artist)
+            except NonDisplayException:
+                pass
+            except NonHandlingException:
+                artist.draw(crude_renderer)
+                shapes = crude_renderer.made_shapes
+            else:
+                if shapes is None:
+                    shapes = []
+                    warnings.warn(
+                        "Converter function should return ``list`` of ``Shapes``, not ``None``.",
+                        UserWarning,
+                    )
+        else:
+            artist.draw(crude_renderer)
+            shapes = crude_renderer.made_shapes
+        return shapes
 
 
 def _to_figure(artist):
