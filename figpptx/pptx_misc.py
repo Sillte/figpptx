@@ -133,7 +133,7 @@ def group(shapes):
     if not shapes:
         raise ValueError("Empty.")
     if len(shapes) == 1:
-        raise shapes[0]
+        return shapes[0]
 
     select(shapes)
     app = shapes[0].Application

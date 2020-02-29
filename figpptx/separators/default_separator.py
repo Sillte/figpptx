@@ -22,7 +22,7 @@ class DefaultSeparator:
 
     Note
     ----
-    * As for ``Ticks`` / ``Axiss``,  only ``label`` texts are converted as ``PowerPointObject``.
+    * As for ``Ticks`` / ``Axis``,  only ``label`` texts are converted as ``PowerPointObject``.
 
     """
 
@@ -34,11 +34,7 @@ class DefaultSeparator:
             else:
                 _roster[_to_key(klass)] = method
 
-            @wraps(method)
-            def _inner(*args, **kwargs):
-                return method(*args, **kwargs)
-
-            return _inner
+            return method
 
         return wrapped
 

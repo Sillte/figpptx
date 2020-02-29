@@ -8,6 +8,8 @@ from figpptx import artist_misc
 from figpptx.arguments_solver import PositionSolver
 from figpptx.separator import FindobjSeparator, SeparatorInterpreter
 
+from figpptx.converter_manager import ConverterManager
+
 # Registeration of methods related to ``ConverterManager``.
 from figpptx import converters  # NOQA
 

@@ -84,13 +84,16 @@ def artists_to_image(artists, is_tight=True, **kwargs):
     figure = None
     for artist in artists:
         try:
-            t_figure = artist.axes.figure
-        except AttributeError:
+            # t_figure = artist.axes.figure
+            t_figure = artist.get_figure()
+        except AttributeError as e:
             pass
         else:
             if figure and (t_figure is not figure):
                 raise ValueError("All the ``Artists`` must belong to the same Figure.")
             figure = t_figure
+    print(artists)
+    assert figure is not None
 
     pairs = _get_artist_pairs(figure)
     target_ids = {id(artist) for artist in artists}

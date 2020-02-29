@@ -5,14 +5,16 @@ Example
 
 @ConverterManager.register(``type of artist``)
 def sample_converter(slide_editor, artist):
+    # generate shapes
     pass
+    return [shapes]
 
 Basic Procedure
 ---------------
 From the given ``Artist``'s properties, generate ``Shape`` via ``slide_editor``.
 
 Required Specification
-----------------------
+--------------------------------------------
 
 * If shapes are generated, it must return the generated shapes.
 * If it decides  ``Artist`` should not be displayed, it raises ``NoDisplayException``.
@@ -95,12 +97,7 @@ class ConverterManager:
         def wrapped(method):
             # Registration.
             cls.roster[key] = method
-
-            @wraps(method)
-            def _inner(*args, **kwargs):
-                return method(*args, **kwargs)
-
-            return _inner
+            return method
 
         return wrapped
 

@@ -9,7 +9,7 @@ from collections.abc import Sequence
 
 
 class PositionSolver:
-    """ Based on ``Slide`` and Size of ``target``,
+    """ Based on ``Slide`` and size of ``target``,
     calculate the appropriate ``left`` and ``top`` position.
 
     """
@@ -26,8 +26,9 @@ class PositionSolver:
         self._pos = None
 
     def configure(self, kwargs):
-        """ Set the intended attribues with the given
+        """ Set the intended attributes with the given
             ``kwargs``.
+
         Note
         ----
         Case Insensitive. This is following to convention of VBA.

@@ -45,15 +45,15 @@ class SeparatorManager:
 
         def wrapped(method):
             if inspect.isclass(method):
-                method = method()
-            assert callable(method)
-            cls.roster[key] = method
+                # When ``class`` is registered,
+                # the registered instance is generated with no parameters.
+                target = method()
+            else:
+                target = method
+            assert callable(target)
+            cls.roster[key] = target
 
-            @wraps(method)
-            def _inner(*args, **kwargs):
-                return method(*args, **kwargs)
-
-            return _inner
+            return method
 
         return wrapped
 
