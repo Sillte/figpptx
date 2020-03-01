@@ -147,12 +147,12 @@ def group(shapes):
 def select(shapes):
     """Select shapes:
 
-    As a side-effect,
+    As side-effects,
         1. the selection of shapes is over-ridden.
         2. Active Slide changed.
     """
     slide_ids = {_shape_to_slide(shape).SlideID for shape in shapes}
-    if len(slide_ids) != 1:
+    if 1 < len(slide_ids):
         raise ValueError("Shape's Slide must be Unique.")
     slide = _shape_to_slide(shapes[0])
     pres = slide.Parent
@@ -177,6 +177,23 @@ def _to_object_type(target):
     """ Return the Capitalized object type.
     """
     return getattr(type(target), "__com_interface__").__name__.strip("_").capitalize()
+
+
+def is_object(target):
+    """ Return whether ``target`` is regarded as Powerpoint Object.
+
+    Note
+    --------------
+    (2020-03-01)
+    Return ``True``, if ``target`` has ``__com_interface__``.
+    Hence, this check is very weak so ``target`` may be not related to
+    PowerPoint, even if ``True`` is returned.
+    """
+    try:
+        getattr(type(target), "__com_interface__")
+    except AttributeError:
+        return False
+    return True
 
 
 def _is_target_object(target, name):

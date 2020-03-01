@@ -9,22 +9,23 @@ You should cache ``CrudeRender``.
 
 import warnings
 import matplotlib
-from collections.abc import Collection
+from collections.abc import Collection, Sequence
 from matplotlib.axes._base import _AxesBase
 from matplotlib.artist import Artist
 
 from figpptx.renderers import CrudeRenderer, DummyRenderer
 from figpptx.slide_editor import SlideEditor
+from figpptx import pptx_misc
 from figpptx.converter_manager import ConverterManager
 from figpptx.converter_manager import NonDisplayException, NonHandlingException
 
 
 class PPTXTranscriber:
-    """ Transcribe of objects of ``matplotlib`` to
+    """ Transcribe of objects of ``matplotlib`` to Powerpoint.
     Args:
-        slide:
-        left:
-        right:
+        slide: Slide Object.
+        left: unit is pixel.
+        right: unit is pixel.
     """
 
     def __init__(self, slide, left=None, top=None):
@@ -37,25 +38,28 @@ class PPTXTranscriber:
         self.left = left
         self.top = top
 
-    def transcribe(self, artist, parent_figure=None):
-        # [TODO] You should revise this so that calling ``_apply_dummy_reander`` should be 1.
+    def transcribe(self, artist):
+        """Transcribe ``Arist`` to PowerPoint Objects.
+
+        """
+        # Reduce the number of ``_apply_dummy_render``.
         if isinstance(artist, Collection):
-            result = list()
-            for elem in artist:
-                result += self.transcribe(elem, parent_figure=parent_figure)
-            return result
+            figures = [_to_figure(elem) for elem in artist]
+            figures = list({id(elem): elem for elem in figures}.values())
+            for fig in figures:
+                self._apply_dummy_render(fig)
+            return sum([self._transcribe(elem) for elem in artist], [])
+        else:
+            self._apply_dummy_render(_to_figure(artist))
+            return self._transcribe(artist)
 
-        # If parent_figure is not given, infer.
-        if parent_figure is None:
-            parent_figure = _to_figure(artist)
-        self._apply_dummy_render(parent_figure)
-
+    def _transcribe(self, artist):
         if isinstance(artist, matplotlib.figure.Figure):
             return self._transcribe_figure(artist)
         elif isinstance(artist, _AxesBase):
             return self._transcribe_axis(artist)
         elif isinstance(artist, Artist):
-            return self._transcribe_artist(artist, parent_figure)
+            return self._transcribe_artist(artist)
         raise ValueError(f"``artist``, {type(artist)} cannot be handled.")
 
     def _apply_dummy_render(self, fig):
@@ -93,11 +97,11 @@ class PPTXTranscriber:
             if isinstance(artist, _AxesBase):
                 shapes += self._transcribe_axis(artist)
             else:
-                shapes += self._transcribe_artist(artist, parent_figure=fig)
+                shapes += self._transcribe_artist(artist)
         return shapes
 
     def _transcribe_axis(self, ax):
-        """Transcribe Figure.
+        """Transcribe Axis.
 
 
         This function is referred to ``matplotlib.figure.Figure.draw``.
@@ -140,20 +144,15 @@ class PPTXTranscriber:
                 shapes += self._transcribe_artist(artist)
         return shapes
 
-    def _transcribe_artist(self, artist, parent_figure=None, crude_render=None):
-        if parent_figure is None:
-            fig = artist.axes.figure
-        else:
-            fig = parent_figure
-
+    def _transcribe_artist(self, artist):
+        fig = _to_figure(artist)
         width, height = _get_pixel_size(fig)
 
         slide_editor = SlideEditor(
             self.slide, left=self.left, top=self.top, size=(width, height)
         )
 
-        if crude_render is None:
-            crude_renderer = CrudeRenderer(slide_editor)
+        crude_renderer = CrudeRenderer(slide_editor)
 
         if ConverterManager.is_registered(artist):
             converter = ConverterManager.fetch(artist)
@@ -165,12 +164,19 @@ class PPTXTranscriber:
                 artist.draw(crude_renderer)
                 shapes = crude_renderer.made_shapes
             else:
-                if shapes is None:
-                    shapes = []
-                    warnings.warn(
-                        "Converter function should return ``list`` of ``Shapes``, not ``None``.",
-                        UserWarning,
-                    )
+                if not isinstance(shapes, Sequence):
+                    if shapes is None:
+                        shapes = []
+                        warnings.warn(
+                            "Converter function should return ``list`` of ``Shapes``, not ``None``.",
+                            UserWarning,
+                        )
+                    elif pptx_misc.is_object(shapes):
+                        shapes = [shapes]
+                    else:
+                        raise ValueError(
+                            "``convert`` function should return Sequence of Shapes."
+                        )
         else:
             artist.draw(crude_renderer)
             shapes = crude_renderer.made_shapes
@@ -179,13 +185,12 @@ class PPTXTranscriber:
 
 def _to_figure(artist):
     """Return Figure of ``artist``.
+
     """
     if isinstance(artist, matplotlib.figure.Figure):
         return artist
-    elif isinstance(artist, _AxesBase):
-        return artist.figure
-    elif isinstance(artist, Artist):
-        return artist.axes.figure
+    else:
+        return artist.get_figure()
     raise ValueError("Given ``artist`` is not Artist.", artist)
 
 

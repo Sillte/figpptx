@@ -89,10 +89,11 @@ def artists_to_image(artists, is_tight=True, **kwargs):
         except AttributeError as e:
             pass
         else:
+            if t_figure is None:
+                continue
             if figure and (t_figure is not figure):
                 raise ValueError("All the ``Artists`` must belong to the same Figure.")
             figure = t_figure
-    print(artists)
     assert figure is not None
 
     pairs = _get_artist_pairs(figure)

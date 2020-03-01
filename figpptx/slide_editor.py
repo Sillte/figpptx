@@ -1,6 +1,8 @@
 """ Slide Editor.
 """
 import numpy as np
+from collections import UserDict
+from collections.abc import Sequence
 
 
 class SlideEditor:
@@ -52,6 +54,23 @@ class SlideEditor:
         data = np.reshape(data, (-1, 2))
         return self._inner_transform(data)
 
+    def get_box(self, artist):
+        """Return coordination of ``Slide`` which tightly contains ``artist``.
+
+        Return: ``dict`` which contains ``Left``, ``Top``, ``Width``, ``Height``.
+        """
+        bbox = artist.get_window_extent()
+        # path = artist.get_path()
+        # transform = artist.get_transform()
+        # path = path.transformed(transform)
+        # vertices = path.vertices
+        # Conversion from screen-coords in matplolib to slide-coords in Powerpoint.
+        vertices = self.transform(bbox)
+        xmin, xmax = min(vertices[:, 0]), max(vertices[:, 0])
+        ymin, ymax = min(vertices[:, 1]), max(vertices[:, 1])
+        left, top, width, height = xmin, ymin, xmax - xmin, ymax - ymin
+        return Box(left, top, width, height)
+
     def _inner_transform(self, points):
         in_x, in_y = points[..., 0], points[..., 1]
         out_x = in_x + self.left
@@ -63,6 +82,52 @@ class SlideEditor:
         out_ymax = self.top + self.height
         out_x, out_y = out_x, (out_ymax - (out_y - out_ymin))
         result = np.stack((out_x, out_y), axis=-1)
+        return result
+
+
+class Box(UserDict):
+    """ This class keeps coordinate information.
+    ``Left``, ``Top``, ``Width``, and ``Height``.
+    """
+
+    def __init__(self, left, top, width, height):
+        self.data = {"Left": left, "Top": top, "Width": width, "Height": height}
+
+    @property
+    def right(self):
+        return self.left + self.width
+
+    @property
+    def bottom(self):
+        return self.top + self.height
+
+    def __getattr__(self, key):
+        n_key = key.capitalize()
+        if n_key in self.data:
+            return self.data[n_key]
+        return super().__getattribute__(key)
+
+    @classmethod
+    def union(cls, *args):
+        args = cls._flatten(args)
+        left = min(arg.left for arg in args)
+        top = min(arg.top for arg in args)
+        right = max(arg.right for arg in args)
+        bottom = max(arg.bottom for arg in args)
+        width = right - left
+        height = bottom - top
+        return Box(left, top, width, height)
+
+    @classmethod
+    def _flatten(cls, *args):
+        result = []
+        for arg in args:
+            if isinstance(arg, Box):
+                result.append(arg)
+            elif isinstance(arg, Sequence):
+                result += cls._flatten(*arg)
+            else:
+                raise ValueError("Invalid Argument.")
         return result
 
 

@@ -1,5 +1,17 @@
 site_name: figpptx Documentation
-theme: material
+site_description: 'Documentation about figpptx'
+site_author: 'sillte'
+site_url: 'https://sillte.github.io/figpptx/'
+
+# Repository
+repo_name: 'sillte/figpptx'
+repo_url: 'https://github.com/sillte/figpptx'
+
+theme:
+    name: material
+    palette:
+        primary: 'indigo'
+        accent: 'Light Blue'
 nav:
     - Home: 'index.md'
     - Tutorial: 

@@ -8,7 +8,11 @@ from figpptx import artist_misc
 from figpptx.arguments_solver import PositionSolver
 from figpptx.separator import FindobjSeparator, SeparatorInterpreter
 
-from figpptx.converter_manager import ConverterManager
+from figpptx.converter_manager import (
+    ConverterManager,
+    NonDisplayException,
+    NonHandlingException,
+)
 
 # Registeration of methods related to ``ConverterManager``.
 from figpptx import converters  # NOQA
@@ -49,7 +53,8 @@ def transcribe(target, slide=None, **kwargs):
 
     transcriber = PPTXTranscriber(slide, left=left, top=top)
     shapes = transcriber.transcribe(target)
-    pptx_misc.select(shapes)
+    if shapes:
+        pptx_misc.select(shapes)
     return shapes
 
 
@@ -77,8 +82,9 @@ def send(target, slide=None, separator="default", match=None, **kwargs):
 
     parent_figure = artist_misc.to_figure(target)
     transcriber = PPTXTranscriber(slide, left=left, top=top)
-    shapes = transcriber.transcribe(shape_artists, parent_figure=parent_figure)
+    shapes = transcriber.transcribe(shape_artists)
 
     grouped_shape = pptx_misc.group([image_shape, *shapes])
-    pptx_misc.select([grouped_shape])
+    if grouped_shape:
+        pptx_misc.select([grouped_shape])
     return grouped_shape
