@@ -27,10 +27,15 @@ class PPTXTranscriber:
     Args:
         slide: Slide Object.
         left: unit is pixel.
-        right: unit is pixel.
+        top: unit is pixel.
+        offset (Artist, 2-length Sequence, or None):  
+            ``offset`` is used to calibrate set the reference point.  
+            If ``None``, it is assumed only the given ``Aritist`` is drawn,
+            otherwise, ``offset`` is subtracted.     
+            For details, please refer to ``SlideEditor``. 
     """
 
-    def __init__(self, slide, left=None, top=None):
+    def __init__(self, slide, left=None, top=None, offset=None):
         # [TODO] ``handling of ``None`` of ``left`` and ``top`` should be revised.
         if left is None:
             left = 0
@@ -39,6 +44,7 @@ class PPTXTranscriber:
         self.slide = slide
         self.left = left
         self.top = top
+        self.offset = offset
 
     def transcribe(self, artist):
         """Transcribe ``Arist`` to PowerPoint Objects.
@@ -57,8 +63,13 @@ class PPTXTranscriber:
 
     def _transcribe(self, artist):
         # Construct the class instance for conversion of coordination.
+        # [TODO]: Revise so that the size is appropriate for ``Artist``, not ``Figure``.
         width, height = _get_pixel_size(_to_figure(artist))
-        slide_editor = SlideEditor(self.slide, left=self.left, top=self.top, size=(width, height), offset=artist)
+        if self.offset is None:
+            offset = artist  # Artist is the reference.
+        else:
+            offset = self.offset
+        slide_editor = SlideEditor(self.slide, left=self.left, top=self.top, size=(width, height), offset=offset)
 
         if isinstance(artist, matplotlib.figure.Figure):
             return self._transcribe_figure(artist, slide_editor)
