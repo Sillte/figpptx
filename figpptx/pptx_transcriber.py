@@ -11,6 +11,8 @@ import warnings
 import matplotlib
 from collections.abc import Collection, Sequence
 from matplotlib.axes._base import _AxesBase
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 from matplotlib.artist import Artist
 
 from figpptx.renderers import CrudeRenderer, DummyRenderer
@@ -54,12 +56,16 @@ class PPTXTranscriber:
             return self._transcribe(artist)
 
     def _transcribe(self, artist):
+        # Construct the class instance for conversion of coordination.
+        width, height = _get_pixel_size(_to_figure(artist))
+        slide_editor = SlideEditor(self.slide, left=self.left, top=self.top, size=(width, height), offset=artist)
+
         if isinstance(artist, matplotlib.figure.Figure):
-            return self._transcribe_figure(artist)
-        elif isinstance(artist, _AxesBase):
-            return self._transcribe_axis(artist)
+            return self._transcribe_figure(artist, slide_editor)
+        elif isinstance(artist, matplotlib.axes.Axes):
+            return self._transcribe_axis(artist, slide_editor)
         elif isinstance(artist, Artist):
-            return self._transcribe_artist(artist)
+            return self._transcribe_artist(artist, slide_editor)
         raise ValueError(f"``artist``, {type(artist)} cannot be handled.")
 
     def _apply_dummy_render(self, fig):
@@ -76,7 +82,7 @@ class PPTXTranscriber:
         except ValueError as e:
             print(e)
 
-    def _transcribe_figure(self, fig):
+    def _transcribe_figure(self, fig, slide_editor):
         """Transcribe Figure.
 
 
@@ -95,12 +101,12 @@ class PPTXTranscriber:
         shapes = list()
         for artist in artists:
             if isinstance(artist, _AxesBase):
-                shapes += self._transcribe_axis(artist)
+                shapes += self._transcribe_axis(artist, slide_editor)
             else:
-                shapes += self._transcribe_artist(artist)
+                shapes += self._transcribe_artist(artist, slide_editor)
         return shapes
 
-    def _transcribe_axis(self, ax):
+    def _transcribe_axis(self, ax, slide_editor):
         """Transcribe Axis.
 
 
@@ -135,18 +141,14 @@ class PPTXTranscriber:
         shapes = list()
         for artist in artists:
             if isinstance(artist, _AxesBase):
-                shapes += self._transcribe_axis(artist)
+                shapes += self._transcribe_axis(artist, slide_editor)
             else:
-                shapes += self._transcribe_artist(artist)
+                shapes += self._transcribe_artist(artist, slide_editor)
         return shapes
 
-    def _transcribe_artist(self, artist):
+    def _transcribe_artist(self, artist, slide_editor):
         fig = _to_figure(artist)
         width, height = _get_pixel_size(fig)
-
-        slide_editor = SlideEditor(
-            self.slide, left=self.left, top=self.top, size=(width, height)
-        )
 
         crude_renderer = CrudeRenderer(slide_editor)
 

@@ -9,10 +9,10 @@ def to_figure(artist):
     """
     if isinstance(artist, matplotlib.figure.Figure):
         return artist
-    elif isinstance(artist, matplotlib.axes._base._AxesBase):
-        return artist.figure
+    elif isinstance(artist, matplotlib.axes.Axes):
+        return artist.get_figure()
     elif isinstance(artist, matplotlib.artist.Artist):
-        return artist.axes.figure
+        return artist.get_figure()
     raise ValueError("Given ``artist`` is not Artist.", artist)
 
 

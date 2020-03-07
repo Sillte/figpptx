@@ -19,8 +19,6 @@ class Comparer:
 
     def compare(self, artist):
         """ Args:
-        [TODO] (2020-01-18) Currently, only ``Figure`` is considered
-        as the valid type....
         """
         fig = artist_misc.to_figure(artist)
         fig.set_dpi(72)

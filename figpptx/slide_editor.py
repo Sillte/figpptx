@@ -3,6 +3,9 @@
 import numpy as np
 from collections import UserDict
 from collections.abc import Sequence
+from figpptx.renderers import CrudeRenderer, DummyRenderer
+from matplotlib.artist import Artist
+from figpptx import artist_misc
 
 
 class SlideEditor:
@@ -14,14 +17,28 @@ class SlideEditor:
         left: (the x-position of top-left corner.)
         top: (the y-position of top-left corner.)
         size: (Width, Height)
+        offsets: (x, y): the offsets of the transformation.
+           If 2-lenght tuple is given, the units are regarded as ``pixel``in Slide.  
+           If ``Artist`` is given, then
+
+    Note
+    --------------------------------------------------------------------------------
+    Without SlideEditor, the position of matplotlib is based on ``Figure``.
+    When artist is not ``Figure``, you should calibrate coordinations 
+    in order to modify ``Artist``'s coordination with ``offsets``. 
     """
 
-    def __init__(self, slide, left, top, size):
+    def __init__(self, slide, left, top, size, *, offset=(0, 0)):
         self.slide = slide
         self.left = left
         self.top = top
         self.size = size
         self.width, self.height = self.size
+
+        self.dummy_render = DummyRenderer(self.width, self.height)
+        self.offset = self._to_offset(self.left, self.top, offset)
+        #self.offset = np.array([0, 0])
+        print("OFFSET", self.offset)
 
     def transform(self, data):
         """ Convert the screen coordination of ``matplolib`` to ``Slide Object``.
@@ -45,25 +62,27 @@ class SlideEditor:
         if data.ndim == 1:
             assert len(data) % 2 == 0, "If ``ndim`` = 1, then the length must be even."
             data = data.reshape(len(data) // 2, 2)
-            data = self._inner_transform(data).reshape(-1)
+            data = self._inner_transform(data)
+            data -= self.offset[None, :]
+            data = data.reshape(-1)
             if klass is not np.ndarray:
                 data = klass(data)
             return data
 
         assert data.shape[-1] == 2, "Last dim must 2."
+        shape = data.shape
         data = np.reshape(data, (-1, 2))
-        return self._inner_transform(data)
+        data =  self._inner_transform(data)
+        data -= self.offset[None, :]
+        data = data.reshape(shape)
+        return data
 
     def get_box(self, artist):
         """Return coordination of ``Slide`` which tightly contains ``artist``.
 
         Return: ``dict`` which contains ``Left``, ``Top``, ``Width``, ``Height``.
         """
-        bbox = artist.get_window_extent()
-        # path = artist.get_path()
-        # transform = artist.get_transform()
-        # path = path.transformed(transform)
-        # vertices = path.vertices
+        bbox = artist.get_window_extent(self.dummy_render)
         # Conversion from screen-coords in matplolib to slide-coords in Powerpoint.
         vertices = self.transform(bbox)
         xmin, xmax = min(vertices[:, 0]), max(vertices[:, 0])
@@ -83,6 +102,20 @@ class SlideEditor:
         out_x, out_y = out_x, (out_ymax - (out_y - out_ymin))
         result = np.stack((out_x, out_y), axis=-1)
         return result
+
+    def _to_offset(self, left, top, offset):
+        if isinstance(offset, Artist):
+            artist = offset
+            fig = artist_misc.to_figure(artist)
+            bbox = artist.get_window_extent(self.dummy_render)
+            bbox = np.array(bbox)
+            vertices = self._inner_transform(bbox) 
+            xmin = min(vertices[:, 0])
+            ymin = min(vertices[:, 1])
+            offset = (xmin - left, ymin - top)
+        assert len(offset) == 2
+        return np.array(offset)
+
 
 
 class Box(UserDict):
