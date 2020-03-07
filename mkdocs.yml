@@ -17,6 +17,10 @@ nav:
     - Tutorial: 
         - "Introduction": 'tutorial/index.md'
         - "Basic Usage": 'tutorial/basic.md'
+        - Advanced Usage:
+            - "Overview": 'tutorial/advance.md'
+            - "Customization of transcribe": "tutorial/converter.md" 
+   
 repo_name: "https://github.com/Sillte/figpptx"
 markdown_extensions:
     - admonition

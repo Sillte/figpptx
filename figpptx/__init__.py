@@ -4,11 +4,10 @@
 from figpptx.pptx_transcriber import PPTXTranscriber
 from figpptx import pptx_misc
 from figpptx import image_misc
-from figpptx import artist_misc
 from figpptx.arguments_solver import PositionSolver
 from figpptx.separator import FindobjSeparator, SeparatorInterpreter
 
-from figpptx.converter_manager import (
+from figpptx.converter_manager import (  # NOQA
     ConverterManager,
     NonDisplayException,
     NonHandlingException,
@@ -80,7 +79,6 @@ def send(target, slide=None, separator="default", match=None, **kwargs):
 
     image_shape = rasterize(image_artists, slide=slide, left=left, top=top)
 
-    parent_figure = artist_misc.to_figure(target)
     transcriber = PPTXTranscriber(slide, left=left, top=top)
     shapes = transcriber.transcribe(shape_artists)
 

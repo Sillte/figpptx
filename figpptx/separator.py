@@ -15,7 +15,6 @@ If the return is Sequence, then it is interpreted as ``shape_artists``.
 
 """
 
-from functools import wraps
 import inspect
 import warnings
 from collections.abc import Collection, Sequence

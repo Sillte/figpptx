@@ -27,10 +27,9 @@ Note
 
 """
 
-from functools import wraps
 from matplotlib.artist import Artist
 import matplotlib.figure
-from matplotlib.axes._base import _AxesBase
+import matplotlib.axes
 import inspect
 
 
@@ -86,7 +85,7 @@ class ConverterManager:
         klass = _to_cls(klass)
         if not issubclass(klass, Artist):
             raise ValueError(f"Class must be subclass of Artist: {klass}")
-        if issubclass(klass, (matplotlib.figure.Figure, _AxesBase)):
+        if issubclass(klass, (matplotlib.figure.Figure, matplotlib.axes.Axes)):
             raise ValueError(f"Figure and Axis cannot be accepted.: {klass}")
         key = _to_key(klass)
 

@@ -1,7 +1,6 @@
 import matplotlib.axis
 from matplotlib.axes._base import _AxesBase
 from collections.abc import Sequence
-from functools import wraps
 from figpptx.separator import SeparatorManager
 
 

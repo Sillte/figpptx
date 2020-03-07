@@ -86,7 +86,7 @@ def artists_to_image(artists, is_tight=True, **kwargs):
         try:
             # t_figure = artist.axes.figure
             t_figure = artist.get_figure()
-        except AttributeError as e:
+        except AttributeError:
             pass
         else:
             if t_figure is None:

@@ -112,10 +112,6 @@ class PPTXTranscriber:
         fig = _to_figure(ax)
         width, height = _get_pixel_size(fig)
 
-        slide_editor = SlideEditor(
-            self.slide, left=self.left, top=self.top, size=(width, height)
-        )
-
         artists = ax.get_children()
 
         # If ``axison`` is False, ``spine`` is not drawn.
