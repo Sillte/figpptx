@@ -16,7 +16,7 @@ from matplotlib.figure import Figure
 from matplotlib.artist import Artist
 
 from figpptx.renderers import CrudeRenderer, DummyRenderer
-from figpptx.slide_editor import SlideEditor
+from figpptx.slide_editor import SlideEditor, SlideTransformer
 from figpptx import pptx_misc
 from figpptx.converter_manager import ConverterManager
 from figpptx.converter_manager import NonDisplayException, NonHandlingException
@@ -69,7 +69,9 @@ class PPTXTranscriber:
             offset = artist  # Artist is the reference.
         else:
             offset = self.offset
-        slide_editor = SlideEditor(self.slide, left=self.left, top=self.top, size=(width, height), offset=offset)
+
+        slide_transformer = SlideTransformer(self.left, self.top, size=(width, height), offset=offset)
+        slide_editor = SlideEditor(self.slide, slide_transformer)
 
         if isinstance(artist, matplotlib.figure.Figure):
             return self._transcribe_figure(artist, slide_editor)

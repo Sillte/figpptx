@@ -6,6 +6,7 @@ from io import BytesIO
 from contextlib import contextmanager
 from matplotlib.artist import Artist
 from matplotlib.axes._axes import _AxesBase
+from figpptx.slide_editor import SlideTransformer
 
 
 def to_image(arg, **kwargs):
@@ -60,11 +61,12 @@ def ax_to_image(ax, is_tight=True, **kwargs):
         image = fig_to_image(fig, **kwargs)
 
     if is_tight:
+        image = _crop_image(image, ax)
         # bbox = image.getbbox()
-        bbox = _get_bbox(image)
-        if bbox:
-            print(bbox)
-            image = image.crop(bbox)
+        #bbox = _get_bbox(image)
+        #if bbox:
+        #    print(bbox)
+        #    image = image.crop(bbox)
         """
         bbox = ax.get_tightbbox(fig.canvas.get_renderer())
         xmin, xmax = math.floor(bbox.xmin), math.ceil(bbox.xmax)
@@ -107,10 +109,11 @@ def artists_to_image(artists, is_tight=True, **kwargs):
 
     if is_tight:
         # bbox = image.getbbox()   # It seems not to work to my intention...
-        bbox = _get_bbox(image)
-        if bbox:
-            print(bbox)
-            image = image.crop(bbox)
+        image = _crop_image(image, artists[0])
+        ##bbox = _get_bbox(image)
+        #if bbox:
+        #    print(bbox)
+        #    image = image.crop(bbox)
     return image
 
 
@@ -149,6 +152,28 @@ def _get_bbox(image):
     ymin = np.clip(ymin, 0, height)
     ymax = np.clip(ymax, 0, height)
     return xmin, ymin, xmax, ymax
+
+
+from figpptx.slide_editor import SlideTransformer
+def _crop_image(fig_image, artist):
+    """ Crop the ``fig_image`` so that only ROI of ``target`` remains.
+    """
+    width, height = fig_image.size
+
+    from figpptx import artist_misc
+    fig =  artist_misc.to_figure(artist)
+    print("fig_image.size", width, height, fig.get_dpi()) 
+    import math
+    transformer = SlideTransformer(0, 0, size=(width, height))
+    box = transformer.get_box(artist)
+    print("BOX", box)
+    xmin, xmax = math.floor(box.left), math.ceil(box.left + box.width)
+    ymin, ymax = math.floor(box.top), math.ceil(box.top + box.height)
+    xmin, xmax = max(0, xmin), min(xmax, width - 1)
+    ymin, ymax = max(0, ymin), min(ymax, height- 1)
+    image = fig_image.crop([xmin, ymin, xmax + 1, ymax + 1])
+    #image.save("test.png")
+    return image
 
 
 @contextmanager
