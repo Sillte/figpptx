@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 
-from figpptx.slide_editor import SlideEditor
+from figpptx.slide_editor import SlideEditor, SlideTransformer
 
 
 @pytest.mark.parametrize(
@@ -22,7 +22,8 @@ def test_transform(instance, expected):
     left = 10
     top = 20
     size = (30, 40)
-    editor = SlideEditor(slide, left=left, top=top, size=size)
+    transformer = SlideTransformer(left=left, top=top, size=size)
+    editor = SlideEditor(slide, transformer)
     target = editor.transform(instance)
     assert np.allclose(np.array(target), np.array(expected))
     assert type(target) is type(expected)
