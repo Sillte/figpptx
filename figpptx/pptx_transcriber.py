@@ -10,7 +10,6 @@ You should cache ``CrudeRender``.
 import warnings
 import matplotlib
 from collections.abc import Collection, Sequence
-from matplotlib.axes._base import _AxesBase
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.artist import Artist
@@ -28,11 +27,11 @@ class PPTXTranscriber:
         slide: Slide Object.
         left: unit is pixel.
         top: unit is pixel.
-        offset (Artist, 2-length Sequence, or None):  
-            ``offset`` is used to calibrate set the reference point.  
+        offset (Artist, 2-length Sequence, or None):
+            ``offset`` is used to calibrate set the reference point.
             If ``None``, it is assumed only the given ``Aritist`` is drawn,
-            otherwise, ``offset`` is subtracted.     
-            For details, please refer to ``SlideEditor``. 
+            otherwise, ``offset`` is subtracted.
+            For details, please refer to ``SlideEditor``.
     """
 
     def __init__(self, slide, left=None, top=None, offset=None):
@@ -70,12 +69,14 @@ class PPTXTranscriber:
         else:
             offset = self.offset
 
-        slide_transformer = SlideTransformer(self.left, self.top, size=(width, height), offset=offset)
+        slide_transformer = SlideTransformer(
+            self.left, self.top, size=(width, height), offset=offset
+        )
         slide_editor = SlideEditor(self.slide, slide_transformer)
 
-        if isinstance(artist, matplotlib.figure.Figure):
+        if isinstance(artist, Figure):
             return self._transcribe_figure(artist, slide_editor)
-        elif isinstance(artist, matplotlib.axes.Axes):
+        elif isinstance(artist, Axes):
             return self._transcribe_axis(artist, slide_editor)
         elif isinstance(artist, Artist):
             return self._transcribe_artist(artist, slide_editor)
@@ -113,7 +114,7 @@ class PPTXTranscriber:
 
         shapes = list()
         for artist in artists:
-            if isinstance(artist, _AxesBase):
+            if isinstance(artist, Axes):
                 shapes += self._transcribe_axis(artist, slide_editor)
             else:
                 shapes += self._transcribe_artist(artist, slide_editor)
@@ -153,7 +154,7 @@ class PPTXTranscriber:
 
         shapes = list()
         for artist in artists:
-            if isinstance(artist, _AxesBase):
+            if isinstance(artist, Axes):
                 shapes += self._transcribe_axis(artist, slide_editor)
             else:
                 shapes += self._transcribe_artist(artist, slide_editor)

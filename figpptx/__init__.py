@@ -19,6 +19,7 @@ from figpptx import converters  # NOQA
 # Registeration of methods related to ``SeparatorManager``.
 from figpptx import separators  # NOQA
 
+
 def rasterize(target, slide=None, **kwargs):
     """ Convert to ``PIL.Image``.
     and paste it to ``Slide``.

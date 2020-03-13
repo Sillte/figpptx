@@ -10,10 +10,18 @@ def to_figure(artist):
     if isinstance(artist, matplotlib.figure.Figure):
         return artist
     elif isinstance(artist, matplotlib.axes.Axes):
-        return artist.get_figure()
+        figure = artist.get_figure()
     elif isinstance(artist, matplotlib.artist.Artist):
-        return artist.get_figure()
-    raise ValueError("Given ``artist`` is not Artist.", artist)
+        figure = artist.get_figure()
+    else:
+        raise ValueError("Given ``artist`` is not Artist.", artist)
+
+    if figure is None:
+        raise ValueError(
+            "Artist's Figure cannot be obtained. "
+            "``artist.get_figure()`` returns `None`."
+        )
+    return figure
 
 
 def to_unique_figures(artists):

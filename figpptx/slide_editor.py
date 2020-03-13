@@ -18,14 +18,14 @@ class SlideEditor:
         top: (the y-position of top-left corner.)
         size: (Width, Height)
         offsets: (x, y): the offsets of the transformation.
-           If 2-lenght tuple is given, the units are regarded as ``pixel``in Slide.  
+           If 2-lenght tuple is given, the units are regarded as ``pixel``in Slide.
            If ``Artist`` is given, then
 
     Note
     --------------------------------------------------------------------------------
     Without SlideEditor, the position of matplotlib is based on ``Figure``.
-    When artist is not ``Figure``, you should calibrate coordinations 
-    in order to modify ``Artist``'s coordination with ``offsets``. 
+    When artist is not ``Figure``, you should calibrate coordinations
+    in order to modify ``Artist``'s coordination with ``offsets``.
     """
 
     def __init__(self, slide, transformer):
@@ -74,7 +74,7 @@ class SlideEditor:
 
         Return: ``dict`` which contains ``Left``, ``Top``, ``Width``, ``Height``.
         """
-        return self.transformer.transform(artist)
+        return self.transformer.get_box(artist)
 
 
 class Box(UserDict):
@@ -122,6 +122,15 @@ class Box(UserDict):
                 raise ValueError("Invalid Argument.")
         return result
 
+    @classmethod
+    def from_vertices(cls, vertices):
+        """Return the curcumscribed rectangle of vertices.
+        """
+        xmin, xmax = min(vertices[:, 0]), max(vertices[:, 0])
+        ymin, ymax = min(vertices[:, 1]), max(vertices[:, 1])
+        left, top, width, height = xmin, ymin, xmax - xmin, ymax - ymin
+        return Box(left, top, width, height)
+
 
 class SlideTransformer:
     """Transform coordination from matplotlib to the one of the output.
@@ -130,12 +139,13 @@ class SlideTransformer:
     Args:
         left: (the x-position of top-left corner.)
         top: (the y-position of top-left corner.)
-        size: (Width, Height) of the output slide. 
+        size: (Width, Height) of the output slide.
         offsets: (x, y): the offsets of the transformation.
-           If 2-length tuple is given, the units are regarded as ``pixel``in the output.  
-           If ``Artist`` is given, then it's values are calculated so that 
-           the it's position becomes (``left``, ``top``).  
+           If 2-length tuple is given, the units are regarded as ``pixel``in the output.
+           If ``Artist`` is given, then it's values are calculated so that
+           the it's position becomes (``left``, ``top``).
     """
+
     def __init__(self, left, top, size, *, offset=(0, 0)):
         self.left = left
         self.top = top
@@ -144,7 +154,6 @@ class SlideTransformer:
 
         self.dummy_render = DummyRenderer(self.width, self.height)
         self.offset = self._to_offset(self.left, self.top, offset)
-
 
     def transform(self, data):
         """ Convert the screen coordination of ``matplolib`` to ``Slide Object``.
@@ -178,7 +187,7 @@ class SlideTransformer:
         assert data.shape[-1] == 2, "Last dim must 2."
         shape = data.shape
         data = np.reshape(data, (-1, 2))
-        data =  self._inner_transform(data)
+        data = self._inner_transform(data)
         data -= self.offset[None, :]
         data = data.reshape(shape)
         return data
@@ -188,7 +197,12 @@ class SlideTransformer:
 
         Return: ``dict`` which contains ``Left``, ``Top``, ``Width``, ``Height``.
         """
-        bbox = artist.get_window_extent()
+        try:
+            bbox = artist.get_window_extent()
+        except TypeError:
+            fig = artist_misc.to_figure(artist)
+            renderer = fig.canvas.get_renderer()
+            bbox = artist.get_window_extent(renderer)
         # Conversion from screen-coords in matplolib to slide-coords in Powerpoint.
         vertices = self.transform(bbox)
         xmin, xmax = min(vertices[:, 0]), max(vertices[:, 0])
@@ -212,10 +226,14 @@ class SlideTransformer:
     def _to_offset(self, left, top, offset):
         if isinstance(offset, Artist):
             artist = offset
-            fig = artist_misc.to_figure(artist)
-            bbox = artist.get_window_extent()
+            try:
+                bbox = artist.get_window_extent()
+            except TypeError:
+                fig = artist_misc.to_figure(artist)
+                renderer = fig.canvas.get_renderer()
+                bbox = artist.get_window_extent(renderer)
             bbox = np.array(bbox)
-            vertices = self._inner_transform(bbox) 
+            vertices = self._inner_transform(bbox)
             xmin = min(vertices[:, 0])
             ymin = min(vertices[:, 1])
             offset = (xmin - left, ymin - top)

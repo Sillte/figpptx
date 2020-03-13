@@ -1,3 +1,4 @@
+import math
 import matplotlib
 import numpy as np
 from collections.abc import Sequence
@@ -5,14 +6,14 @@ from PIL import Image
 from io import BytesIO
 from contextlib import contextmanager
 from matplotlib.artist import Artist
-from matplotlib.axes._axes import _AxesBase
-from figpptx.slide_editor import SlideTransformer
+from matplotlib.axes import Axes
+from figpptx.slide_editor import SlideTransformer, Box
 
 
 def to_image(arg, **kwargs):
     if isinstance(arg, matplotlib.figure.Figure):
         return fig_to_image(arg, **kwargs)
-    elif isinstance(arg, _AxesBase):
+    elif isinstance(arg, Axes):
         is_tight = kwargs.pop("is_tight", True)
         return ax_to_image(arg, is_tight, **kwargs)
     elif isinstance(arg, Artist):
@@ -39,6 +40,7 @@ def fig_to_image(fig, **kwargs):
     # Ref: https://stackoverflow.com/questions/8598673/how-to-save-a-pylab-figure-into-in-memory-file-which-can-be-read-into-pil-image/8598881  # NOQA
 
     kwargs["format"] = kwargs.get("format", "png")
+    kwargs["transpranet"] = kwargs.get("transparent", True)
     buf = BytesIO()
     fig.savefig(buf, **kwargs)
     buf.seek(0)
@@ -62,12 +64,7 @@ def ax_to_image(ax, is_tight=True, **kwargs):
 
     if is_tight:
         image = _crop_image(image, ax)
-        # bbox = image.getbbox()
-        #bbox = _get_bbox(image)
-        #if bbox:
-        #    print(bbox)
-        #    image = image.crop(bbox)
-        """
+
         bbox = ax.get_tightbbox(fig.canvas.get_renderer())
         xmin, xmax = math.floor(bbox.xmin), math.ceil(bbox.xmax)
         ymin, ymax = math.floor(bbox.ymin), math.ceil(bbox.ymax)
@@ -83,20 +80,14 @@ def artists_to_image(artists, is_tight=True, **kwargs):
     if not artists:
         raise ValueError("``Empty Collection of Artists.``")
     # Check whether the all belongs to the same figure.
-    figure = None
-    for artist in artists:
-        try:
-            # t_figure = artist.axes.figure
-            t_figure = artist.get_figure()
-        except AttributeError:
-            pass
-        else:
-            if t_figure is None:
-                continue
-            if figure and (t_figure is not figure):
-                raise ValueError("All the ``Artists`` must belong to the same Figure.")
-            figure = t_figure
-    assert figure is not None
+    figures = [artist.get_figure() for artist in artists]
+    figures = [figure for figure in figures if figure]
+    figures = set(figures)
+    if not figures:
+        raise ValueError("Figure does not exist.")
+    elif 1 < len(figures):
+        ValueError("All the ``Artists`` must belong to the same Figure.")
+    figure = list(figures)[0]
 
     pairs = _get_artist_pairs(figure)
     target_ids = {id(artist) for artist in artists}
@@ -108,12 +99,8 @@ def artists_to_image(artists, is_tight=True, **kwargs):
         image = fig_to_image(figure, **kwargs)
 
     if is_tight:
-        # bbox = image.getbbox()   # It seems not to work to my intention...
         image = _crop_image(image, artists[0])
-        ##bbox = _get_bbox(image)
-        #if bbox:
-        #    print(bbox)
-        #    image = image.crop(bbox)
+
     return image
 
 
@@ -154,25 +141,32 @@ def _get_bbox(image):
     return xmin, ymin, xmax, ymax
 
 
-from figpptx.slide_editor import SlideTransformer
 def _crop_image(fig_image, artist):
     """ Crop the ``fig_image`` so that only ROI of ``target`` remains.
     """
     width, height = fig_image.size
 
     from figpptx import artist_misc
-    fig =  artist_misc.to_figure(artist)
-    print("fig_image.size", width, height, fig.get_dpi()) 
-    import math
-    transformer = SlideTransformer(0, 0, size=(width, height))
-    box = transformer.get_box(artist)
-    print("BOX", box)
+
+    fig = artist_misc.to_figure(artist)
+    transformer = SlideTransformer(0, 0, size=(width, height), offset=(0, 0))
+    if isinstance(artist, Axes):
+        fig = artist_misc.to_figure(artist)
+        renderer = fig.canvas.get_renderer()
+        bbox = artist.get_tightbbox(renderer)
+        vertices = transformer.transform(bbox)
+        box = Box.from_vertices(vertices)
+    elif isinstance(artist, Artist):
+        box = transformer.get_box(artist)
+    else:
+        raise ValueError("Argument Error.", artist)
+
     xmin, xmax = math.floor(box.left), math.ceil(box.left + box.width)
     ymin, ymax = math.floor(box.top), math.ceil(box.top + box.height)
     xmin, xmax = max(0, xmin), min(xmax, width - 1)
-    ymin, ymax = max(0, ymin), min(ymax, height- 1)
+    ymin, ymax = max(0, ymin), min(ymax, height - 1)
     image = fig_image.crop([xmin, ymin, xmax + 1, ymax + 1])
-    #image.save("test.png")
+    # image.save("test.png")
     return image
 
 
