@@ -52,6 +52,7 @@ def fig_to_image(fig, **kwargs):
 def ax_to_image(ax, is_tight=True, **kwargs):
     """ Convert ``matplotlib.Axes`` to ``PIL.Image``.
     """
+
     kwargs["transparent"] = kwargs.get("transparent", True)
 
     fig = ax.figure
@@ -69,7 +70,6 @@ def ax_to_image(ax, is_tight=True, **kwargs):
         xmin, xmax = math.floor(bbox.xmin), math.ceil(bbox.xmax)
         ymin, ymax = math.floor(bbox.ymin), math.ceil(bbox.ymax)
         image = image.crop([xmin, ymin, xmax, ymax])
-        """
     return image
 
 
@@ -121,12 +121,11 @@ def _get_artist_pairs(fig):
 
 def _get_bbox(image):
     """
-    Note
-    -------------------------------------
     (2020-01-12)
     ``Image.getbbox()`` does not seem to work intendedly. (Really?)
     So, substitution is implemented.
     """
+
     assert image.mode == "RGBA"
     width, height = image.size
     array = np.array(image)

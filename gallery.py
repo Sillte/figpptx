@@ -133,5 +133,4 @@ class GalleryExecutor:
 
 
 if __name__ == "__main__":
-    #GalleryExecutor.execute(["_gallery", "galley"])
-    GalleryExecutor.execute(["_gallery"])
+    GalleryExecutor.execute(["gallery"])

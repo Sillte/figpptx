@@ -12,10 +12,16 @@ It is desirable to perform this process swiftly, since we'd like to improve deta
 I considered how to perform this chore efficiently.     
 **figpptx** is written to integrate my experiments as a (somewhat) makeshift library.      
 
+### Caution
+
+* This library is yet my personal practice.  
+* It is highly possible to change specifications. 
+
 
 ### Requirements
 
-* Python 3.6+  
+* Python 3.6+ (My environment is  3.8.2.)  
+    - In some recent python versions, ``comtypes`` does not work correctly, so this library also fails. See  ```https://github.com/enthought/comtypes/issues/202``
 * Microsoft PowerPoint (My environment is Microsoft PowerPoint 2016)  
 * See ``requirements.txt``.
 

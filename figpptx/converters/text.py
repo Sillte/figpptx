@@ -43,6 +43,7 @@ def text_converter(slide_editor, artist):
 
 
 if __name__ == "__main__":
+    # Ref: https://matplotlib.org/gallery/shapes_and_collections/fancybox_demo.html#sphx-glr-gallery-shapes-and-collections-fancybox-demo-py
     import matplotlib.patches as mpatch
 
     from figpptx.comparer import Comparer
