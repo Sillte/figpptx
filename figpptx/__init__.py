@@ -77,12 +77,18 @@ def send(target, slide=None, separator="default", match=None, **kwargs):
 
     slide = pptx_misc.get_slide(arg=slide)
 
-    image_shape = rasterize(image_artists, slide=slide, left=left, top=top)
+    if image_artists:
+        image_shape = rasterize(image_artists, slide=slide, left=left, top=top)
+    else:
+        image_shape = None
 
     transcriber = PPTXTranscriber(slide, left=left, top=top, offset=target)
     shapes = transcriber.transcribe(shape_artists)
 
-    grouped_shape = pptx_misc.group([image_shape, *shapes])
+    if image_shape:
+        grouped_shape = pptx_misc.group([image_shape, *shapes])
+    else:
+        grouped_shape = pptx_misc.group(shapes) 
     if grouped_shape:
         pptx_misc.select([grouped_shape])
     return grouped_shape

@@ -116,9 +116,9 @@ class SeparatorInterpreter:
         # Then, they are regarded as `shape_artist`.
         allmatch = _to_match_func(None)
         shape_leaf_artists = sum(
-            [_get_leaf_artists(elem, allmatch) for elem in separator_result], []
+            [get_leaf_artists(elem, allmatch) for elem in separator_result], []
         )
-        all_leaf_artists = _get_leaf_artists(target, allmatch)
+        all_leaf_artists = get_leaf_artists(target, allmatch)
 
         shape_left_ids = {id(elem) for elem in shape_leaf_artists}
         image_leaf_artists = [
@@ -143,9 +143,9 @@ class FindobjSeparator:
             shape_artists (list): Leaf Artists for conversion of shape.
             image_artists (list): Leaf Artists for an image.
         """
-        shape_leaf_artists = _get_leaf_artists(target, self.match)
+        shape_leaf_artists = get_leaf_artists(target, self.match)
         allmatch = _to_match_func(None)
-        all_leaf_artists = _get_leaf_artists(target, allmatch)
+        all_leaf_artists = get_leaf_artists(target, allmatch)
         shape_left_ids = {id(elem) for elem in shape_leaf_artists}
         image_leaf_artists = [
             elem for elem in all_leaf_artists if id(elem) not in shape_left_ids
@@ -153,7 +153,7 @@ class FindobjSeparator:
         return shape_leaf_artists, image_leaf_artists
 
 
-def _get_leaf_artists(root_artist, matchfunc):
+def get_leaf_artists(root_artist, matchfunc):
     """Return all the leaf artists.
     which
 

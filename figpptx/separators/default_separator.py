@@ -80,4 +80,3 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     sep = DefaultSeparator()
     result = sep(fig)
-    print("result", result)
