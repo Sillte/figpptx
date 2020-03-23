@@ -88,7 +88,7 @@ def send(target, slide=None, separator="default", match=None, **kwargs):
     if image_shape:
         grouped_shape = pptx_misc.group([image_shape, *shapes])
     else:
-        grouped_shape = pptx_misc.group(shapes) 
+        grouped_shape = pptx_misc.group(shapes)
     if grouped_shape:
         pptx_misc.select([grouped_shape])
     return grouped_shape
