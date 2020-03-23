@@ -10,16 +10,17 @@ repo_url: 'https://github.com/sillte/figpptx'
 theme:
     name: material
     palette:
-        primary: 'indigo'
-        accent: 'Light Blue'
+        primary: 'teal'
+        accent: 'indigo'
 nav:
     - Home: 'index.md'
     - Tutorial: 
         - "Introduction": 'tutorial/index.md'
         - "Basic Usage": 'tutorial/basic.md'
-        - Advanced Usage:
-            - "Overview": 'tutorial/advance.md'
-            - "Customization of transcribe": "tutorial/converter.md" 
+        - "Separator Example": 'tutorial/separator.md'
+        - "Converter Example": 'tutorial/converter.md'
+    - Concept:
+        - "Concept and Overview": 'concept/index.md'
    
 repo_name: "https://github.com/Sillte/figpptx"
 markdown_extensions:

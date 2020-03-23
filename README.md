@@ -12,11 +12,6 @@ It is desirable to perform this process swiftly, since we'd like to improve deta
 I considered how to perform this chore efficiently.     
 **figpptx** is written to integrate my experiments as a (somewhat) makeshift library.      
 
-### Caution
-
-* This library is yet my personal practice.  
-* It is highly possible to change specifications. 
-
 
 ### Requirements
 
@@ -101,6 +96,10 @@ tox
 * You must close the files of PowerPoint beforehand.   
 
 
-### Comment
+### Comment and Policy
 
+* This library is mainly for my personal practice.  
+* It is yet highly possible to change specifications. 
 * ``transcribe`` is far from perfection.
+* I'd like not to pursue perfection for `transcrbe``. 
+    - I feel it takes much cost but the benefit is not so large. 
