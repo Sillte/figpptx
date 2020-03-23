@@ -41,7 +41,6 @@ def test_default():
     shape = figpptx.send(fig, slide=slide)
     assert get_typename(shape) == "Shape"
     shapes = _get_shapes(slide, individual=True)
-    assert len(shapes) == 1 + 3
     assert {shape.Type for shape in shapes} == {constants.msoPicture, constants.msoTextBox}
 
 
@@ -61,4 +60,5 @@ def test_match():
 
 
 if __name__ == "__main__":
+    #print(_get_shapes(_get_empty_slide()))
     pytest.main([__file__, "--capture=no"])
