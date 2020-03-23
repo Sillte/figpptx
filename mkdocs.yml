@@ -1,0 +1,28 @@
+site_name: figpptx Documentation
+site_description: 'Documentation about figpptx'
+site_author: 'sillte'
+site_url: 'https://sillte.github.io/figpptx/'
+
+# Repository
+repo_name: 'sillte/figpptx'
+repo_url: 'https://github.com/sillte/figpptx'
+
+theme:
+    name: material
+    palette:
+        primary: 'teal'
+        accent: 'indigo'
+nav:
+    - Home: 'index.md'
+    - Tutorial: 
+        - "Introduction": 'tutorial/index.md'
+        - "Basic Usage": 'tutorial/basic.md'
+        - "Separator Example": 'tutorial/separator.md'
+        - "Converter Example": 'tutorial/converter.md'
+    - Concept:
+        - "Concept and Overview": 'concept/index.md'
+   
+repo_name: "https://github.com/Sillte/figpptx"
+markdown_extensions:
+    - admonition
+    - codehilite

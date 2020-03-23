@@ -1,0 +1,4 @@
+include requirements.txt
+recursive-include devs *.txt *.py
+include gallery.py
+include gallery *.py
