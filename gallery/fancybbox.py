@@ -16,12 +16,11 @@ class TextConverter:
 
     @classmethod
     def gallery(cls, fig):
-        fontsize = 0.3 * 72
-        spacing = 1.2
+        fontsize = 0.3 * 48
+        spacing = 0.8
         styles = mpatch.BoxStyle.get_styles()
 
         figheight = spacing * len(styles) + 0.5
-        fontsize = 0.3 * 72
         fig.set_size_inches(figheight, figheight)
 
         styles = mpatch.BoxStyle.get_styles()
