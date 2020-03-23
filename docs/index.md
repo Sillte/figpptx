@@ -10,11 +10,12 @@ Please see
 
 * [https://github.com/Sillte/figpptx](https://github.com/Sillte/figpptx)
 
-## Usage
-
-Please see [Tutorial](./tutorial/index.md) at first. 
-
 ## Concepts
 By the following document, you can catch the gist of design.  
 
 * [Concept and Overview of Structure](concept/index.md)
+
+## Usage
+
+Please see [Tutorial](./tutorial/index.md) at first. 
+
