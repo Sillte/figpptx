@@ -1,0 +1,38 @@
+tutorial_converter.py:1:1: F401 'figpptx' imported but unused
+tutorial_converter.py:3:1: F401 'figpptx.ConverterManager' imported but unused
+tutorial_converter.py:4:1: F401 'figpptx.pptx_transcriber.PPTXTranscriber' imported but unused
+tutorial_converter.py:5:1: F401 'matplotlib.patches.FancyBboxPatch' imported but unused
+tutorial_converter.py:6:1: F401 'matplotlib.transforms as mtransforms' imported but unused
+tutorial_converter.py:7:1: F401 'matplotlib.patches as mpatch' imported but unused
+tutorial_converter.py:8:1: F401 'matplotlib.axes._axes' imported but unused
+tutorial_converter.py:18:1: E265 block comment should start with '# '
+tutorial_converter.py:19:1: E265 block comment should start with '# '
+tutorial_converter.py:22:1: E266 too many leading '#' for block comment
+tutorial_converter.py:23:1: E265 block comment should start with '# '
+tutorial_converter.py:30:1: W391 blank line at end of file
+\PubilcLibrary\figpptx\figpptx\__init__.py:11:1: F401 'figpptx.converter_manager.ConverterManager' imported but unused
+\PubilcLibrary\figpptx\figpptx\__init__.py:11:1: F401 'figpptx.converter_manager.NonDisplayException' imported but unused
+\PubilcLibrary\figpptx\figpptx\__init__.py:11:1: F401 'figpptx.converter_manager.NonHandlingException' imported but unused
+tutorial_converter.py:4:1: F401 'matplotlib.figure.Figure' imported but unused
+tutorial_converter.py:6:1: F811 redefinition of unused 'BoxStyle' from line 5
+tutorial_converter.py:7:1: F401 'matplotlib.transforms.TransformedPath' imported but unused
+tutorial_converter.py:8:1: F401 'matplotlib.path' imported but unused
+tutorial_converter.py:11:58: W291 trailing whitespace
+tutorial_converter.py:17:5: E265 block comment should start with '# '
+tutorial_converter.py:21:1: W293 blank line contains whitespace
+tutorial_converter.py:26:80: W291 trailing whitespace
+tutorial_converter.py:5:1: F401 'matplotlib.transforms.TransformedPath' imported but unused
+tutorial_converter.py:6:1: F401 'matplotlib.path' imported but unused
+tutorial_converter.py:9:58: W291 trailing whitespace
+tutorial_converter.py:15:5: E265 block comment should start with '# '
+tutorial_converter.py:19:1: W293 blank line contains whitespace
+tutorial_converter.py:24:80: W291 trailing whitespace
+tutorial_converter.py:7:58: W291 trailing whitespace
+tutorial_converter.py:13:5: E265 block comment should start with '# '
+tutorial_converter.py:17:1: W293 blank line contains whitespace
+tutorial_converter.py:22:80: W291 trailing whitespace
+tutorial_converter.py:7:58: W291 trailing whitespace
+tutorial_converter.py:16:1: W293 blank line contains whitespace
+tutorial_converter.py:21:80: W291 trailing whitespace
+tutorial_converter.py:7:58: W291 trailing whitespace
+tutorial_converter.py:16:1: W293 blank line contains whitespace

@@ -1,0 +1,781 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Documentation about figpptx">
+      
+      
+        <link rel="canonical" href="https://sillte.github.io/figpptx/tutorial/converter/">
+      
+      
+        <meta name="author" content="sillte">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Converter Example - figpptx Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#009688">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#extension-of-transcribe" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://sillte.github.io/figpptx/" title="figpptx Documentation" aria-label="figpptx Documentation" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              figpptx Documentation
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Converter Example
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/sillte/figpptx/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    https://github.com/Sillte/figpptx
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://sillte.github.io/figpptx/" title="figpptx Documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    figpptx Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/sillte/figpptx/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    https://github.com/Sillte/figpptx
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basic/" title="Basic Usage" class="md-nav__link">
+      Basic Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../separator/" title="Separator Example" class="md-nav__link">
+      Separator Example
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Converter Example
+      </label>
+    
+    <a href="./" title="Converter Example" class="md-nav__link md-nav__link--active">
+      Converter Example
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explanation" class="md-nav__link">
+    Explanation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slideeditor" class="md-nav__link">
+    SlideEditor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial" class="md-nav__link">
+    Tutorial
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comment" class="md-nav__link">
+    Comment
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specification-of-the-registered-artist-class" class="md-nav__link">
+    Specification of the registered Artist Class.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Concept
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Concept
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../concept/" title="Concept and Overview" class="md-nav__link">
+      Concept and Overview
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explanation" class="md-nav__link">
+    Explanation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slideeditor" class="md-nav__link">
+    SlideEditor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tutorial" class="md-nav__link">
+    Tutorial
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comment" class="md-nav__link">
+    Comment
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specification-of-the-registered-artist-class" class="md-nav__link">
+    Specification of the registered Artist Class.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/sillte/figpptx/edit/master/docs/tutorial/converter.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="extension-of-transcribe">Extension of <code>transcribe</code></h1>
+<h2 id="introduction">Introduction</h2>
+<p><code>transcribe</code> converts <code>Artist</code> to <code>PowerPoint Object</code>. <br />
+<code>ConverterManager</code> enables you to customize how to perform this.  </p>
+<p>This sections explains how to extend <code>transcribe</code> function.</p>
+<h2 id="explanation">Explanation</h2>
+<p>Shortly speaking, it is necessary to register a function 
+to <code>ConvertManager</code> before you invoke <code>transcribe</code>.</p>
+<p>The interface is such as follows.</p>
+<div class="codehilite"><pre><span></span><code><span class="nd">@ConverterManager</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">line2d_converter</span><span class="p">(</span><span class="n">slide_editor</span><span class="p">,</span> <span class="n">artist</span><span class="p">):</span>
+    <span class="c1"># `artist` is an instance of `matplotlib.lines.Line2D`.</span>
+    <span class="c1"># you have to generate ``shapes``, corresponding to ``artist``.</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">shapes</span><span class="p">]</span>
+</code></pre></div>
+
+
+<h3 id="slideeditor">SlideEditor</h3>
+<p><code>figpptx.slide_editor.SlideEditor</code> have a role to
+create <code>Shape Object</code> of PowerPoint.
+Specifically, </p>
+<ol>
+<li>[generation of objects] <code>slide</code> attributes enables accessing to <code>Slide.Shapes</code>, which invokes <code>AddShapes</code>. </li>
+<li>[conversion of coordination]<ul>
+<li><code>transform</code> method converts coordination system between <code>Figure</code> and <code>Slide</code></li>
+<li>Via <code>get_box</code> method, get <code>Artist</code>'s position in the coordination of <code>Slide</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="tutorial">Tutorial</h2>
+<p>Here, consider the following code snippet.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">figpptx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">figpptx</span> <span class="kn">import</span> <span class="n">ConverterManager</span><span class="p">,</span> <span class="n">NonHandlingException</span>
+
+<span class="c1"># To reset the pre-determined function.</span>
+<span class="nd">@ConverterManager</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">Text</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">slide_editor</span><span class="p">,</span> <span class="n">artist</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">NonHandlingException</span>  <span class="c1"># Delegate to ``CrudeRenderer``.</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+         <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+         <span class="n">transform</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="p">,</span>
+         <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">))</span>
+<span class="n">figpptx</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>The code above draws a text with a circle.
+It is a bit inconvenient that the <code>AutoShapeType</code> of red circle is not <code>msoShapeOval</code>.
+Here, we see how to revise this behavior.</p>
+<h3 id="implementation">Implementation</h3>
+<p>To implement this feature, we have to know the properties of <code>matplotlib.text.Text</code> and <code>Shape</code>'s property. 
+Firstly, look up <code>matplotlib.text.Text</code> and related documents and codes.   </p>
+<ul>
+<li><a href="https://matplotlib.org/3.1.1/_modules/matplotlib/text.html#Text">https://matplotlib.org/3.1.1/_modules/matplotlib/text.html#Text</a>  </li>
+<li><a href="https://matplotlib.org/3.1.1/api/text_api.html?highlight=text#matplotlib.text.Text">https://matplotlib.org/3.1.1/api/text_api.html?highlight=text#matplotlib.text.Text</a>  </li>
+<li><a href="https://matplotlib.org/3.1.3/api/_as_gen/matplotlib.patches.FancyBboxPatch.html">https://matplotlib.org/3.1.3/api/_as_gen/matplotlib.patches.FancyBboxPatch.html</a>  </li>
+<li><a href="https://matplotlib.org/3.1.3/_modules/matplotlib/patches.html#BoxStyle">https://matplotlib.org/3.1.3/_modules/matplotlib/patches.html#BoxStyle</a>  </li>
+</ul>
+<p>Next, check VBA Reference.</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/office/vba/api/powerpoint.shapes.addshape">https://docs.microsoft.com/en-us/office/vba/api/powerpoint.shapes.addshape</a>.   </li>
+<li><a href="https://docs.microsoft.com/en-us/office/vba/api/office.msoautoshapetype">https://docs.microsoft.com/en-us/office/vba/api/office.msoautoshapetype</a>.   </li>
+</ul>
+<p>From these surveys, we can see to get <code>FancyBboxPatch</code>'s information via, <code>get_bbox_patch</code>.  </p>
+<p>What we do is as follows. </p>
+<ol>
+<li>Acquire the properties of <code>Artist</code>.</li>
+<li>Generate <code>Shape</code>. </li>
+<li>Set the properties of <code>Artist</code> to <code>Shape</code>.  </li>
+</ol>
+<p>Though, the codes are a little bit long, 
+it is possible to make a circle.  </p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">figpptx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">BoxStyle</span>
+
+<span class="kn">from</span> <span class="nn">figpptx</span> <span class="kn">import</span> <span class="n">ConverterManager</span><span class="p">,</span> <span class="n">NonHandlingException</span>
+<span class="kn">from</span> <span class="nn">figpptx</span> <span class="kn">import</span> <span class="n">constants</span>  <span class="c1"># Definition of constants.</span>
+<span class="kn">from</span> <span class="nn">figpptx</span> <span class="kn">import</span> <span class="n">conversion_misc</span>
+
+
+<span class="nd">@ConverterManager</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">Text</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">slide_editor</span><span class="p">,</span> <span class="n">artist</span><span class="p">):</span>
+    <span class="n">patch</span> <span class="o">=</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_bbox_patch</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">patch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">NonHandlingException</span>  <span class="c1"># Delegate to ``CrudeRenderer``.</span>
+
+    <span class="n">boxstyle</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">get_boxstyle</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">boxstyle</span><span class="p">,</span> <span class="n">BoxStyle</span><span class="o">.</span><span class="n">Circle</span><span class="p">):</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">slide_editor</span><span class="o">.</span><span class="n">get_box</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+        <span class="c1"># ``box`` is a dict which constains ``Left``, ``Top``, ``Width`` and ``Height``.</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">slide_editor</span><span class="o">.</span><span class="n">slide</span><span class="o">.</span><span class="n">Shapes</span><span class="o">.</span><span class="n">AddShape</span><span class="p">(</span><span class="n">Type</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">msoShapeOval</span><span class="p">,</span> <span class="o">**</span><span class="n">box</span><span class="p">)</span>
+        <span class="c1"># Conversion of color format of ``Line``.</span>
+        <span class="n">edgecolor</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">get_edgecolor</span><span class="p">()</span>
+        <span class="n">linewidth</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">get_linewidth</span><span class="p">()</span>
+        <span class="n">color</span><span class="p">,</span> <span class="n">transparency</span> <span class="o">=</span> <span class="n">conversion_misc</span><span class="o">.</span><span class="n">to_color_infos</span><span class="p">(</span><span class="n">edgecolor</span><span class="p">)</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Line</span><span class="o">.</span><span class="n">ForeColor</span><span class="o">.</span><span class="n">RGB</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Line</span><span class="o">.</span><span class="n">Transparency</span> <span class="o">=</span> <span class="n">transparency</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Line</span><span class="o">.</span><span class="n">ForeColor</span><span class="o">.</span><span class="n">Weight</span> <span class="o">=</span> <span class="n">linewidth</span>
+
+        <span class="c1"># Conversion of color format of ``Fill``.</span>
+        <span class="n">fillcolor</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">get_facecolor</span><span class="p">()</span>
+        <span class="n">color</span><span class="p">,</span> <span class="n">transparency</span> <span class="o">=</span> <span class="n">conversion_misc</span><span class="o">.</span><span class="n">to_color_infos</span><span class="p">(</span><span class="n">fillcolor</span><span class="p">)</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Fill</span><span class="o">.</span><span class="n">ForeColor</span><span class="o">.</span><span class="n">RGB</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">Fill</span><span class="o">.</span><span class="n">Transparency</span> <span class="o">=</span> <span class="n">transparency</span>
+
+        <span class="c1"># Setting Text Properties.</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">TextFrame</span><span class="o">.</span><span class="n">TextRange</span><span class="o">.</span><span class="n">Text</span> <span class="o">=</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">TextFrame</span><span class="o">.</span><span class="n">TextRange</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Size</span> <span class="o">=</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
+        <span class="n">color</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">conversion_misc</span><span class="o">.</span><span class="n">to_color_infos</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">TextFrame</span><span class="o">.</span><span class="n">TextRange</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Color</span><span class="o">.</span><span class="n">RGB</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">TextFrame</span><span class="o">.</span><span class="n">WordWrap</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">msoFalse</span>
+        <span class="k">return</span> <span class="n">shape</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">NonHandlingException</span>  <span class="c1"># Delegate to ``CrudeRenderer``.</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">style</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="mf">0.1</span><span class="p">,</span>
+    <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;circle&quot;</span><span class="p">,</span>
+    <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="p">,</span>
+    <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">figpptx</span><span class="o">.</span><span class="n">transcribe</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Notice that the code above is insufficient. 
+For other properties, or other inputs, the format became broke. 
+In addition, the setting of type of fonts is omitted.</p>
+<p>Remind that mechanism of <code>transcribe</code> is uncertain and far from perfect.<br />
+When you want steady behavior, you should use mechanism of <code>rasterize</code>, 
+or you should write <code>converters</code> for your situations.</p>
+<h3 id="comment">Comment</h3>
+<h4 id="specification-of-the-registered-artist-class">Specification of the registered Artist Class.</h4>
+<p>When <code>Figure</code> or <code>Axes</code> are given as Parameter, then the target Artist must be the children of them.
+This means only if the registered Artist class is an instance  of <code>Figure.get_children()</code> or  <code>Axes.get_children()</code>, 
+then registered function is  invoked. 
+For example, even if you register a function for <code>FancyBboxPatch</code> , it is not invoked in the tutorial case. 
+This is because  <code>FancyBboxPatch</code> is not included in <code>Figure.get_children</code> or <code>Axes.get_children()</code>.</p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../separator/" title="Separator Example" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Separator Example
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../concept/" title="Concept and Overview" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Concept and Overview
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>
