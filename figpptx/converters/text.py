@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib
 
+import numpy as np
+
 from figpptx import ConverterManager
 from figpptx import constants  # Definition of constants.
 from figpptx import conversion_misc
@@ -25,7 +27,17 @@ def text_converter(slide_editor, artist):
     # shape.TextFrame.MarginRight = 0
     # shape.TextFrame.MarginTop = 0
     # shape.TextFrame.MarginBottom = 0
+
+    # Subtract the margin of TextFrame so that the top and left should be equivalent.
+    shape.Top -= shape.TextFrame.MarginTop
+    shape.Left -= shape.TextFrame.MarginLeft
+
     shape.TextFrame.WordWrap = constants.msoFalse
+
+    # Rotation.
+    angle = artist.get_rotation()
+    pivot = (shape.Left, shape.Top + shape.Height)
+    _rotate_offset(shape, angle, pivot)
 
     # Itatic
     style = artist.get_style()
@@ -40,6 +52,37 @@ def text_converter(slide_editor, artist):
     shape.Fill.Visible = False
 
     return shape
+
+
+def _rotate_offset(shape, angle, pivot):
+    """
+    Rotate ``shape`` `angle` degrees
+    clockwise along ``pivot.
+
+    Args:
+        angle:
+            degree.
+        pivot:
+            (`x`, `y`), pivot of the rotation.
+    """
+    if angle == 0:
+        return
+    cx = shape.Left + shape.Width / 2
+    cy = shape.Top + shape.Height / 2
+
+    theta = -angle / 180 * np.pi  # Sign of angle.
+
+    # Rotation matrix.
+    rotmat = np.array(
+        [[np.cos(theta), -np.sin(theta)], [+np.sin(theta), np.cos(theta)]]
+    )
+    px, py = pivot
+    # Pivot's position after Rotation.
+    tx, ty = rotmat @ np.array([px - cx, py - cy]) + np.array([cx, cy])
+    # Pivot is equal in before and after.
+    shape.Left += px - tx
+    shape.Top += py - ty
+    shape.Rotation = -angle  # Sign of angle.
 
 
 if __name__ == "__main__":
