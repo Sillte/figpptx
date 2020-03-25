@@ -71,6 +71,8 @@ ax.set_title("Title. This is a TextBox.", fontsize=16)
 figpptx.send(fig)
 ```
 
+For details, please see [documents](https://sillte.github.io/figpptx/). 
+
 ### Gallery
 
 If you would like to know difference between ``rasterize`` and ``transcribe``, please execute below. 
