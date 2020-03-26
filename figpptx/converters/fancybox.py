@@ -29,7 +29,8 @@ def _set_commons(shape, patch):
     fillcolor = patch.get_facecolor()
     color, transparency = conversion_misc.to_color_infos(fillcolor)
     shape.Fill.ForeColor.RGB = color
-    shape.Fill.Transparency = transparency
+    shape.Fill.ForeColor.Transparency = transparency
+    shape.Fill.Visible = constants.msoTrue
     return shape
 
 

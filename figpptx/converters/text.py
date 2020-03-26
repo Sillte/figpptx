@@ -1,43 +1,51 @@
 import matplotlib.pyplot as plt
 import matplotlib
 
-import numpy as np
-
 from figpptx import ConverterManager
 from figpptx import constants  # Definition of constants.
+from figpptx.converter_manager import NonHandlingException
 from figpptx import conversion_misc
+from figpptx import image_misc
+from figpptx import pptx_misc
 from figpptx.converters import fancybox
 
 
 @ConverterManager.register(matplotlib.text.Text)
 def text_converter(slide_editor, artist):
     patch = artist.get_bbox_patch()
+    box = slide_editor.get_box(artist)
+    if artist.get_rotation() != 0:
+        raise NonHandlingException
+
+    if matplotlib.cbook.is_math_text(artist.get_text()):
+        if patch:
+            patch_shape = fancybox.fancybbox_converter(slide_editor, patch)
+        image = image_misc.to_image(artist)
+        text_shape = pptx_misc.paste_image(
+            slide_editor.slide, image, left=box.Left, top=box.Top
+        )
+        return [patch_shape, text_shape]
+
     if patch:
         shape = fancybox.fancybbox_converter(slide_editor, patch)
     else:
-        box = slide_editor.get_box(artist)
         shape = slide_editor.slide.Shapes.AddTextBox(
             constants.msoTextOrientationHorizontal, **box
         )
+        # Subtract the margin of TextFrame so that the top and left should be equivalent.
+        # I feel this simple logic is not enough...
+        shape.Top -= shape.TextFrame.MarginTop
+        shape.Left -= shape.TextFrame.MarginLeft
 
-    shape.TextFrame.TextRange.Text = artist.get_text()
-    # shape.TextFrame.Autosize = False
+    if not patch:
+        shape.TextFrame.Autosize = constants.ppAutoSizeShapeToFitText
+    if artist.get_wrap():
+        text = artist._get_wrapped_text()
+    else:
+        text = artist.get_text()
+    shape.TextFrame.TextRange.Text = text
     shape.TextFrame.Textrange.Font.Size = artist.get_fontsize()
-    # shape.TextFrame.MarginLeft = 0
-    # shape.TextFrame.MarginRight = 0
-    # shape.TextFrame.MarginTop = 0
-    # shape.TextFrame.MarginBottom = 0
-
-    # Subtract the margin of TextFrame so that the top and left should be equivalent.
-    shape.Top -= shape.TextFrame.MarginTop
-    shape.Left -= shape.TextFrame.MarginLeft
-
     shape.TextFrame.WordWrap = constants.msoFalse
-
-    # Rotation.
-    angle = artist.get_rotation()
-    pivot = (shape.Left, shape.Top + shape.Height)
-    _rotate_offset(shape, angle, pivot)
 
     # Itatic
     style = artist.get_style()
@@ -49,40 +57,8 @@ def text_converter(slide_editor, artist):
     # Is there a place to set ``alpha``?
     rgb_int, alpha = conversion_misc.to_color_infos(rgb)
     shape.TextFrame.TextRange.Font.Color.RGB = rgb_int
-    shape.Fill.Visible = False
 
     return shape
-
-
-def _rotate_offset(shape, angle, pivot):
-    """
-    Rotate ``shape`` `angle` degrees
-    clockwise along ``pivot.
-
-    Args:
-        angle:
-            degree.
-        pivot:
-            (`x`, `y`), pivot of the rotation.
-    """
-    if angle == 0:
-        return
-    cx = shape.Left + shape.Width / 2
-    cy = shape.Top + shape.Height / 2
-
-    theta = -angle / 180 * np.pi  # Sign of angle.
-
-    # Rotation matrix.
-    rotmat = np.array(
-        [[np.cos(theta), -np.sin(theta)], [+np.sin(theta), np.cos(theta)]]
-    )
-    px, py = pivot
-    # Pivot's position after Rotation.
-    tx, ty = rotmat @ np.array([px - cx, py - cy]) + np.array([cx, cy])
-    # Pivot is equal in before and after.
-    shape.Left += px - tx
-    shape.Top += py - ty
-    shape.Rotation = -angle  # Sign of angle.
 
 
 if __name__ == "__main__":
