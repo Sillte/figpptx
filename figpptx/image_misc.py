@@ -40,7 +40,7 @@ def fig_to_image(fig, **kwargs):
     # Ref: https://stackoverflow.com/questions/8598673/how-to-save-a-pylab-figure-into-in-memory-file-which-can-be-read-into-pil-image/8598881  # NOQA
 
     kwargs["format"] = kwargs.get("format", "png")
-    kwargs["transpranet"] = kwargs.get("transparent", True)
+    kwargs["transparent"] = kwargs.get("transparent", True)
     buf = BytesIO()
     fig.savefig(buf, **kwargs)
     buf.seek(0)
