@@ -89,8 +89,9 @@ def artists_to_image(artists, is_tight=True, **kwargs):
         ValueError("All the ``Artists`` must belong to the same Figure.")
     figure = list(figures)[0]
 
+    target_pairs = sum([_get_artist_pairs(artist) for artist in artists], [])
+    target_ids = {id(pair[0]) for pair in target_pairs}
     pairs = _get_artist_pairs(figure)
-    target_ids = {id(artist) for artist in artists}
     leaf_artists = [artist for artist, has_child in pairs if not has_child]
     with _store_visibility(leaf_artists):
         for artist in leaf_artists:
@@ -104,7 +105,7 @@ def artists_to_image(artists, is_tight=True, **kwargs):
     return image
 
 
-def _get_artist_pairs(fig):
+def _get_artist_pairs(root):
     result = list()
 
     def _inner(artist):
@@ -115,7 +116,7 @@ def _get_artist_pairs(fig):
         pair = (artist, has_child)
         result.append(pair)
 
-    _inner(fig)
+    _inner(root)
     return result
 
 
