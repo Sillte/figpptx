@@ -1,6 +1,7 @@
 import math
 import matplotlib
 import numpy as np
+from typing import Sequence
 from collections.abc import Sequence
 from PIL import Image
 from io import BytesIO
@@ -100,7 +101,7 @@ def artists_to_image(artists, is_tight=True, **kwargs):
         image = fig_to_image(figure, **kwargs)
 
     if is_tight:
-        image = _crop_image(image, artists[0])
+        image = _crop_image(image, artists)
 
     return image
 
@@ -148,7 +149,6 @@ def _crop_image(fig_image, artist):
 
     from figpptx import artist_misc
 
-    fig = artist_misc.to_figure(artist)
     transformer = SlideTransformer(0, 0, size=(width, height), offset=(0, 0))
     if isinstance(artist, Axes):
         fig = artist_misc.to_figure(artist)
@@ -158,6 +158,9 @@ def _crop_image(fig_image, artist):
         box = Box.from_vertices(vertices)
     elif isinstance(artist, Artist):
         box = transformer.get_box(artist)
+    elif isinstance(artist, Sequence):
+        boxes = [transformer.get_box(elem) for elem in artist]
+        box = Box.union(boxes)
     else:
         raise ValueError("Argument Error.", artist)
 
@@ -166,7 +169,6 @@ def _crop_image(fig_image, artist):
     xmin, xmax = max(0, xmin), min(xmax, width - 1)
     ymin, ymax = max(0, ymin), min(ymax, height - 1)
     image = fig_image.crop([xmin, ymin, xmax + 1, ymax + 1])
-    # image.save("test.png")
     return image
 
 
