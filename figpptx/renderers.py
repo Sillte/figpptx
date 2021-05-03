@@ -136,11 +136,14 @@ class CrudeRenderer(RendererBase):
                 int_rgb, alpha = to_color_infos(rgbFace)
                 shape.Fill.ForeColor.RGB = int_rgb
                 shape.Fill.Transparency = 1 - alpha
+                shape.Fill.Visible = constants.msoTrue
 
             line_weight = gc.get_linewidth()
             shape.Line.Weight = line_weight
             if not line_weight:
-                shape.Line.Visible = False
+                shape.Line.Visible = constants.msoFalse
+            else:
+                shape.Line.Visible = constants.msoTrue
             int_rgb, alpha = to_color_infos(gc.get_rgb())
             shape.Line.ForeColor.RGB = int_rgb
             shape.Line.ForeColor.Transparencey = 1 - alpha

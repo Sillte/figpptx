@@ -3,6 +3,7 @@ import matplotlib.lines
 from matplotlib.transforms import TransformedPath
 from figpptx.converter_manager import ConverterManager
 from figpptx.converter_manager import NonHandlingException
+from figpptx import constants
 
 
 def hexcode_to_rgb(hex_code):
@@ -46,6 +47,8 @@ def line2d_converter(slide_editor, target):
     shape = slide.Shapes.Addline(x_data[0], y_data[0], x_data[1], y_data[1])
     shape.Line.ForeColor.RGB = rgb_to_int(rgb)
     shape.Line.Weight = target.get_linewidth()
+    shape.Line.Visible = constants.msoTrue
+    
     if alpha is not None:
         shape.Line.Transparency = 1 - alpha
 

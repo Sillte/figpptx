@@ -24,6 +24,7 @@ def _set_commons(shape, patch):
     shape.Line.ForeColor.RGB = color
     shape.Line.Transparency = transparency
     shape.Line.ForeColor.Weight = linewidth
+    shape.Line.Visible = constants.msoTrue
 
     # Conversion of color format of ``Fill``.
     fillcolor = patch.get_facecolor()
