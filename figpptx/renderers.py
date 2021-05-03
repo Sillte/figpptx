@@ -200,7 +200,8 @@ class CrudeRenderer(RendererBase):
         shape = _make_triangle(slide, points)
         shape.Fill.ForeColor.RGB = int_rgb
         shape.Fill.Transparency = 1 - alpha
-        shape.Line.Visible = False
+        shape.Fill.Visible = constants.msoTrue
+        shape.Line.Visible = constants.msoFalse
 
         self._made_shapes.append(shape)
 
