@@ -21,7 +21,7 @@ from figpptx import separators  # NOQA
 
 
 def rasterize(target, slide=None, **kwargs):
-    """ Convert to ``PIL.Image``.
+    """Convert to ``PIL.Image``.
     and paste it to ``Slide``.
 
     Return: Shape.
@@ -58,8 +58,7 @@ def transcribe(target, slide=None, **kwargs):
 
 
 def send(target, slide=None, separator="default", match=None, **kwargs):
-    """Send `target` to PowerPoint.
-    """
+    """Send `target` to PowerPoint."""
 
     kwargs = {key.lower(): value for key, value in kwargs.items()}
     slide = pptx_misc.get_slide(arg=slide)

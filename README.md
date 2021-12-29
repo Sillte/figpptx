@@ -16,7 +16,6 @@ I considered how to perform this chore efficiently.
 ### Requirements
 
 * Python 3.6+ (My environment is  3.8.2.)  
-    - In some recent python versions, ``comtypes`` does not work correctly, so this library also fails. See  https://github.com/enthought/comtypes/issues/202
 * Microsoft PowerPoint (My environment is Microsoft PowerPoint 2016)  
 * See ``requirements.txt``.
 
@@ -91,7 +90,7 @@ python setup.py test
 
 #### Regreesion Test 
 ```bat
-tox
+pytest
 ```
 
 * Tests include automatic operation of PowerPoint.    

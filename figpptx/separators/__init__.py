@@ -8,8 +8,7 @@ from figpptx.separator import SeparatorManager, get_leaf_artists
 
 @SeparatorManager.register("rasterize")
 def separator(target):
-    """All of the artist are given to ``rasterize``.
-    """
+    """All of the artist are given to ``rasterize``."""
 
     def matchfunc(artist):
         return False

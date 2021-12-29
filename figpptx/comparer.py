@@ -5,7 +5,7 @@ from figpptx import artist_misc
 
 
 class Comparer:
-    """ Compare  the result of ``rasterize`` and ``transcribe``.
+    """Compare  the result of ``rasterize`` and ``transcribe``.
     Mainly, it is used for checking behaviors to
     develop ``converters`` for ``PPTXTranscriber``.
     """
@@ -18,8 +18,7 @@ class Comparer:
         return pptx_misc.get_slide(self._slide)
 
     def compare(self, artist):
-        """ Args:
-        """
+        """Args:"""
         fig = artist_misc.to_figure(artist)
         fig.set_dpi(72)
         slide_size = pptx_misc.get_slide_size(self.slide)

@@ -29,7 +29,7 @@ def text_converter(slide_editor, artist):
     if patch:
         shape = fancybox.fancybbox_converter(slide_editor, patch)
     else:
-        shape = slide_editor.slide.Shapes.AddTextBox(
+        shape = slide_editor.slide.Shapes.AddTextbox(
             constants.msoTextOrientationHorizontal, **box
         )
         # Subtract the margin of TextFrame so that the top and left should be equivalent.
@@ -38,13 +38,13 @@ def text_converter(slide_editor, artist):
         shape.Left -= shape.TextFrame.MarginLeft
 
     if not patch:
-        shape.TextFrame.Autosize = constants.ppAutoSizeShapeToFitText
+        shape.TextFrame.AutoSize = constants.ppAutoSizeShapeToFitText
     if artist.get_wrap():
         text = artist._get_wrapped_text()
     else:
         text = artist.get_text()
     shape.TextFrame.TextRange.Text = text
-    shape.TextFrame.Textrange.Font.Size = artist.get_fontsize()
+    shape.TextFrame.TextRange.Font.Size = artist.get_fontsize()
     shape.TextFrame.WordWrap = constants.msoFalse
 
     # Itatic

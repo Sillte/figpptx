@@ -1,4 +1,6 @@
 numpy
 matplotlib
 Pillow
-comtypes
+pywin32
+pytest
+

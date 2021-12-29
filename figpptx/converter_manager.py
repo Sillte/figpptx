@@ -39,22 +39,19 @@ PPTXTranscriber catches these exceptions and decide processings.
 
 
 class NonDisplayException(Exception):
-    """It is used for ``Artist`` which is not displayed.
-    """
+    """It is used for ``Artist`` which is not displayed."""
 
     pass
 
 
 class NonHandlingException(Exception):
-    """It is used for ``Artist` which is delegated to ``Renderer``.
-    """
+    """It is used for ``Artist` which is delegated to ``Renderer``."""
 
     pass
 
 
 class ConverterManager:
-    """ Fetch / Register of Converter.
-    """
+    """Fetch / Register of Converter."""
 
     roster = dict()
 

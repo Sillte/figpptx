@@ -2,7 +2,6 @@ import math
 import matplotlib
 import numpy as np
 from typing import Sequence
-from collections.abc import Sequence
 from PIL import Image
 from io import BytesIO
 from contextlib import contextmanager
@@ -51,8 +50,7 @@ def fig_to_image(fig, **kwargs):
 
 
 def ax_to_image(ax, is_tight=True, **kwargs):
-    """ Convert ``matplotlib.Axes`` to ``PIL.Image``.
-    """
+    """Convert ``matplotlib.Axes`` to ``PIL.Image``."""
 
     kwargs["transparent"] = kwargs.get("transparent", True)
 
@@ -143,8 +141,7 @@ def _get_bbox(image):
 
 
 def _crop_image(fig_image, artist):
-    """ Crop the ``fig_image`` so that only ROI of ``target`` remains.
-    """
+    """Crop the ``fig_image`` so that only ROI of ``target`` remains."""
     width, height = fig_image.size
 
     from figpptx import artist_misc

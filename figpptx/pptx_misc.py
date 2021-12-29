@@ -9,15 +9,17 @@ from ``matplotlib.Figure``.
 """
 
 import os
+from pywintypes import com_error
+from win32com.client import CDispatch, DispatchBaseClass
+import win32com.client
 from contextlib import contextmanager
 from pathlib import Path
-from comtypes import client
-from _ctypes import COMError
 from figpptx import constants
+from figpptx import win32com_misc
 
 
 def get_slide(arg=None):
-    """ Return ``Slide`` based on ``arg``.
+    """Return ``Slide`` based on ``arg``.
     It attempts to return the most appropriate.
     """
     if _is_target_object(arg, "Slide"):
@@ -29,19 +31,19 @@ def get_slide(arg=None):
     try:
         if app.ActiveWindow.ViewType != constants.ppViewNormal:
             app.ActiveWindow.ViewType = constants.ppViewNormal
-    except COMError:
+    except com_error:
         pass
 
     try:
         if app.ActiveWindow.Selection.SlideRange:
-            return app.ActiveWindow.Selection.SlideRange[1]
-    except COMError:
+            return app.ActiveWindow.Selection.SlideRange.Item(1)
+    except com_error:
         pass
 
     if not app.Presentations.Count:
         pres = get_presentation()
     else:
-        pres = app.Presentations[1]
+        pres = app.Presentations.Item(1)
     if not pres.Slides.Count:
         slide = pres.Slides.Add(1, constants.ppLayoutBlank)
     else:
@@ -50,7 +52,7 @@ def get_slide(arg=None):
 
 
 def get_presentation(filepath=None):
-    """ Return ``Presentation`` based on the given ``filepath``.
+    """Return ``Presentation`` based on the given ``filepath``.
     It attempts to return the most appopriate one.
     """
 
@@ -60,10 +62,10 @@ def get_presentation(filepath=None):
     if filepath:
         filepath = Path(filepath).resolve()
         for pres in app.Presentations:
-            if filepath == Path(pres.Fullname):
+            if filepath == Path(pres.FullName):
                 return pres
         if filepath.exists():
-            return app.Presentations.open(str(filepath))
+            return app.Presentations.Open(str(filepath))
         pres = app.presentations.add()
         pres.Saveas(str(filepath))
         return pres
@@ -71,10 +73,10 @@ def get_presentation(filepath=None):
     # If ``ActivePresent`` exists. then return it.
     try:
         return app.ActivePresentation.Slides.Parent
-    except COMError:
+    except com_error:
         pass
     if app.Presentations.Count:
-        return app.Presentations[1]
+        return app.Presentations.Item(1)
 
     # Last resort; add and return.
     pres = app.Presentations.Add()
@@ -82,7 +84,7 @@ def get_presentation(filepath=None):
 
 
 def get_slide_size(arg):
-    """ Return the size of slide.
+    """Return the size of slide.
     Args:
         arg: ``Slide`` or ``Presentation``
     Return:
@@ -94,13 +96,16 @@ def get_slide_size(arg):
         pres = arg
     else:
         raise ValueError()
-    width = pres.PageSetUp.SlideWidth
-    height = pres.PageSetUp.SlideHeight
+    width = pres.PageSetup.SlideWidth
+    height = pres.PageSetup.SlideHeight
     return (width, height)
 
 
 def _get_application():
-    app = client.CreateObject("Powerpoint.Application")
+    try:
+        app = win32com.client.GetObject(Class="Powerpoint.Application")
+    except com_error:
+        app = win32com.client.DispatchEx("Powerpoint.Application")
     app.Visible = True
     return app
 
@@ -174,35 +179,21 @@ def select(shapes):
 
 
 def _to_object_type(target):
-    """ Return the Capitalized object type.
-    """
-    return getattr(type(target), "__com_interface__").__name__.strip("_").capitalize()
+    """Return the Capitalized object type."""
+    assert not isinstance(target, CDispatch)
+    return target.__class__.__name__.strip("_").capitalize()
+    # return getattr(type(target), "__com_interface__").__name__.strip("_").capitalize()
 
 
 def is_object(target):
-    """ Return whether ``target`` is regarded as Powerpoint Object.
-
-    Note
-    --------------
-    (2020-03-01)
-    Return ``True``, if ``target`` has ``__com_interface__``.
-    Hence, this check is very weak so ``target`` may be not related to
-    PowerPoint, even if ``True`` is returned.
+    """Return whether ``target`` is regarded as Powerpoint Object.
     """
-    try:
-        getattr(type(target), "__com_interface__")
-    except AttributeError:
-        return False
-    return True
+    return isinstance(target, DispatchBaseClass)
 
 
 def _is_target_object(target, name):
-    try:
-        target_name = _to_object_type(target)
-    except AttributeError:
-        return False
-    else:
-        return target_name == name.capitalize()
+    target_name = _to_object_type(target)
+    return target_name == name.capitalize()
 
 
 @contextmanager

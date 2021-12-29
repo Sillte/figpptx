@@ -9,7 +9,7 @@ from collections.abc import Sequence
 
 
 class PositionSolver:
-    """ Based on ``Slide`` and size of ``target``,
+    """Based on ``Slide`` and size of ``target``,
     calculate the appropriate ``left`` and ``top`` position.
 
     """
@@ -26,7 +26,7 @@ class PositionSolver:
         self._pos = None
 
     def configure(self, kwargs):
-        """ Set the intended attributes with the given
+        """Set the intended attributes with the given
             ``kwargs``.
 
         Note
@@ -39,7 +39,7 @@ class PositionSolver:
                 setattr(self, f"_{key.lower()}", kwargs[key])
 
         if self._left is None or self._top is None:
-            """ Direct specification of ``left`` and ``top``
+            """Direct specification of ``left`` and ``top``
             is the highest priority.
             """
             left, top = self._solve()

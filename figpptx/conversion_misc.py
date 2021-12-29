@@ -22,7 +22,7 @@ from figpptx.slide_editor import Box
 
 
 def to_color_infos(rgb):
-    """ From color of ``matplotlib`` to one of PowerPoint.
+    """From color of ``matplotlib`` to one of PowerPoint.
     Args:
         rgb: color represented in ``matplotlib`` format.
 
@@ -39,7 +39,7 @@ def to_color_infos(rgb):
 
 
 def to_image_shape(slide_editor, artists):
-    """ Convert ``artist`` to ``Shape`` as ``PIL.Image``.
+    """Convert ``artist`` to ``Shape`` as ``PIL.Image``.
 
     Note
     ----------------------------------

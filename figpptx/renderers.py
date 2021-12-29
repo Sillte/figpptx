@@ -29,7 +29,7 @@ def to_color_infos(rgb):
 
 
 class CrudeRenderer(RendererBase):
-    """ Last resolution for rendering of Artist.
+    """Last resolution for rendering of Artist.
 
     Args:
         slide_editor
@@ -46,8 +46,7 @@ class CrudeRenderer(RendererBase):
 
     @property
     def made_shapes(self):
-        """Return the generated shapes.
-        """
+        """Return the generated shapes."""
         return self._made_shapes
 
     @property
@@ -90,8 +89,7 @@ class CrudeRenderer(RendererBase):
                 sx, sy = x, y
 
             elif code == mpath.Path.CLOSEPOLY:
-                """ You must not use vertex when code is 79.
-                """
+                """You must not use vertex when code is 79."""
                 x, y = vertex
                 form.AddNodes(msoSegmentLine, msoEditingAuto, sx, sy)
                 shape = form.ConvertToShape()
@@ -146,7 +144,8 @@ class CrudeRenderer(RendererBase):
                 shape.Line.Visible = constants.msoTrue
             int_rgb, alpha = to_color_infos(gc.get_rgb())
             shape.Line.ForeColor.RGB = int_rgb
-            shape.Line.ForeColor.Transparencey = 1 - alpha
+            shape.Line.Transparency = 1 - alpha
+
 
         # make a Group.
         if 1 < len(shapes):
@@ -223,10 +222,10 @@ class CrudeRenderer(RendererBase):
             "Height": 100,
             "Orientation": msoTextOrientationHorizontal,
         }
-        shape = self.slide.Shapes.AddTextBox(**arg_dict)
+        shape = self.slide.Shapes.AddTextbox(**arg_dict)
         shape.TextFrame.TextRange.Text = s
-        shape.TextFrame.Autosize = ppAutoSizeShapeToFitText
-        shape.TextFrame.Textrange.Font.Size = prop.get_size()
+        shape.TextFrame.AutoSize = ppAutoSizeShapeToFitText
+        shape.TextFrame.TextRange.Font.Size = prop.get_size()
         shape.TextFrame.MarginLeft = 0
         shape.TextFrame.MarginRight = 0
         shape.TextFrame.MarginTop = 0
@@ -295,7 +294,7 @@ def _rotate_offset(shape, angle, pivot):
 
 
 class DummyRenderer(RendererBase):
-    """ Dummy Renderer.
+    """Dummy Renderer.
     This class is used for calling of the ``Figure/Axes`` draw
     so that adjustement functions are called according to settings.
 

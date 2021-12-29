@@ -5,8 +5,7 @@ from collections.abc import Collection
 
 
 def to_figure(artist):
-    """Return Figure of ``artist``.
-    """
+    """Return Figure of ``artist``."""
     if isinstance(artist, matplotlib.figure.Figure):
         return artist
     elif isinstance(artist, matplotlib.axes.Axes):
@@ -25,8 +24,7 @@ def to_figure(artist):
 
 
 def to_unique_figures(artists):
-    """Return unique figure.
-    """
+    """Return unique figure."""
     if not isinstance(artists, Collection):
         return to_figure(artists)
 

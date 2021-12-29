@@ -74,8 +74,7 @@ class SeparatorInterpreter:
     """
 
     def __init__(self, separator, artist):
-        """
-        """
+        """"""
         self.separator = SeparatorManager.fetch(separator)
         self.artist = artist
         self._original_output = self.separator(self.artist)
@@ -86,8 +85,7 @@ class SeparatorInterpreter:
 
     @property
     def partition(self):
-        """(shape_artists, image_artists).
-        """
+        """(shape_artists, image_artists)."""
         return self._interpret(self.original_output, self.artist)
 
     def _interpret(self, separator_result, target):
@@ -128,9 +126,7 @@ class SeparatorInterpreter:
 
 
 class FindobjSeparator:
-    """Separator similar to ``Artist.findobj``.
-
-    """
+    """Separator similar to ``Artist.findobj``."""
 
     def __init__(self, match):
         self.match = _to_match_func(match)

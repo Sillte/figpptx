@@ -7,8 +7,7 @@ from figpptx import constants
 import figpptx
 
 def get_typename(target):
-    # ``get_typename`` is more approriate name following to documentation.
-    return getattr(type(target), "__com_interface__").__name__.strip("_").capitalize()
+    return pptx_misc._to_object_type(target)
 
 def _get_empty_slide():
     slide = pptx_misc.get_slide()

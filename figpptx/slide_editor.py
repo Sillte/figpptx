@@ -9,7 +9,7 @@ from figpptx import artist_misc
 
 
 class SlideEditor:
-    """ This Class possess all the information required for adding ``Shapes``.
+    """This Class possess all the information required for adding ``Shapes``.
     Here, the unit of coordination is ``pixel``.
 
     Args:
@@ -53,7 +53,7 @@ class SlideEditor:
         return self.transformer.height
 
     def transform(self, data):
-        """ Convert the screen coordination of ``matplolib`` to ``Slide Object``.
+        """Convert the screen coordination of ``matplolib`` to ``Slide Object``.
         Args:
             data (np.ndarray): data must be able to converted to
                              If ``data``'s dimension is 1, then
@@ -78,7 +78,7 @@ class SlideEditor:
 
 
 class Box(UserDict):
-    """ This class keeps coordinate information.
+    """This class keeps coordinate information.
     ``Left``, ``Top``, ``Width``, and ``Height``.
     """
 
@@ -124,8 +124,7 @@ class Box(UserDict):
 
     @classmethod
     def from_vertices(cls, vertices):
-        """Return the curcumscribed rectangle of vertices.
-        """
+        """Return the curcumscribed rectangle of vertices."""
         xmin, xmax = min(vertices[:, 0]), max(vertices[:, 0])
         ymin, ymax = min(vertices[:, 1]), max(vertices[:, 1])
         left, top, width, height = xmin, ymin, xmax - xmin, ymax - ymin
@@ -156,7 +155,7 @@ class SlideTransformer:
         self.offset = self._to_offset(self.left, self.top, offset)
 
     def transform(self, data):
-        """ Convert the screen coordination of ``matplolib`` to ``Slide Object``.
+        """Convert the screen coordination of ``matplolib`` to ``Slide Object``.
         Args:
             data (np.ndarray): data must be able to converted to
                              If ``data``'s dimension is 1, then

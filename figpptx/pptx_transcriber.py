@@ -22,7 +22,7 @@ from figpptx.converter_manager import NonDisplayException, NonHandlingException
 
 
 class PPTXTranscriber:
-    """ Transcribe of objects of ``matplotlib`` to Powerpoint.
+    """Transcribe of objects of ``matplotlib`` to Powerpoint.
     Args:
         slide: Slide Object.
         left: unit is pixel.
@@ -46,9 +46,7 @@ class PPTXTranscriber:
         self.offset = offset
 
     def transcribe(self, artist):
-        """Transcribe ``Arist`` to PowerPoint Objects.
-
-        """
+        """Transcribe ``Arist`` to PowerPoint Objects."""
         # Reduce the number of ``_apply_dummy_render``.
         if isinstance(artist, Collection):
             figures = [_to_figure(elem) for elem in artist]
@@ -196,9 +194,7 @@ class PPTXTranscriber:
 
 
 def _to_figure(artist):
-    """Return Figure of ``artist``.
-
-    """
+    """Return Figure of ``artist``."""
     if isinstance(artist, matplotlib.figure.Figure):
         return artist
     else:
