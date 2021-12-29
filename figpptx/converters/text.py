@@ -50,7 +50,7 @@ def text_converter(slide_editor, artist):
     # Itatic
     style = artist.get_style()
     if style in {"italic", "oblique"}:
-        shape.TextFrame.Textrange.Font.Italic = True
+        shape.TextFrame.TextRange.Font.Italic = True
 
     # Color
     rgb = artist.get_color()

@@ -7,7 +7,7 @@ from win32com.client.selecttlb import EnumTlbs
 from win32com.client.makepy import GenerateFromTypeLibSpec
 from win32com import __gen_path__
 
-print(__gen_path__)  # In this folder, the generated object resides. 
+# print(__gen_path__)  # In this folder, the generated object resides. 
 
 def assure_generation():
     """We would like to `generated` pywin32 PowerPoint module.
