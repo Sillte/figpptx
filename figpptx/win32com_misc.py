@@ -2,7 +2,7 @@
 Notice that this library is not library, but recipes for reading codes of `pywin32com`.  
 """ 
 
-from win32com.client import DispatchEx 
+from win32com.client import DispatchEx, CDispatch
 from win32com.client.selecttlb import EnumTlbs
 from win32com.client.makepy import GenerateFromTypeLibSpec
 from win32com import __gen_path__

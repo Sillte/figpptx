@@ -10,7 +10,7 @@ from ``matplotlib.Figure``.
 
 import os
 from pywintypes import com_error
-from win32com.client import CDispatch, DispatchBaseClass
+from win32com.client import CDispatch, DispatchBaseClass, CoClassBaseClass
 import win32com.client
 from contextlib import contextmanager
 from pathlib import Path
@@ -185,10 +185,10 @@ def _to_object_type(target):
     # return getattr(type(target), "__com_interface__").__name__.strip("_").capitalize()
 
 
-def is_object(target):
+def is_object(instance):
     """Return whether ``target`` is regarded as Powerpoint Object.
     """
-    return isinstance(target, DispatchBaseClass)
+    return isinstance(instance, (DispatchBaseClass, CoClassBaseClass))
 
 
 def _is_target_object(target, name):
